@@ -2,91 +2,82 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
+      value: Suhaas Katikaneni
     - name: Languages
-      value: English, German
+      value: English, Spanish, Telugu
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: BSc
+      institution: University of Chicago, Chicago, USA
+      year: 2024
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+        
+    - title: Deep Learning Specialization
+      institution: Coursera and Fast AI
+      year: 2023
+      
 
 - title: Experience
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: Software Engineering Intern
+      institution: Pegasystems
+      year: 2023 - Present
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+        - Developed personalized marketing apps (Java) for Customer Decision Hub - utilized ML and predictive analytics.
+        - Contributing to Pega’s low-code workflow automation platform powered by AI decisioning.
+        
+    - title: Software Engineer Intern
+      institution: PayPal
+      year: 2022
       description:
-        - Description 1.
-        - Description 2.
+        - Developed automation software (Python) to test PayPal Sandbox API and functions. Automated application performance evaluation to assess efficiency data for 10 applications by building Power BI reports & dashboards.
+        - Improved the latency performance by 50% for the entry-writing REST API calls for PayPal Checkout. Adopted agile software development practices and tools like CI/CD, Git, Confluence, and Jira.
 
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
 
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
+    - title: Software Development Intern
+      institution: MITRE Corp
+      year: 1920-2021
+
+    - title: UX/UI Intern
+      institution: 1Cademy
+      year: 2021
       description:
 
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
+    - title: Research Intern
+      institution: Dartmouth College
+      year: 2019 - 2020
 
-- title: Open Source Projects
+- title: Research Projects
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: <a href="https://users.wpi.edu/~atrapp/">Andrew Trapp, WPI</a>
+      year: 2023-Now
+      description: Integer optimization for decisioning.
+    - title: <a href="https://www.axlab.cs.uchicago.edu/">AxLab</a>
+      year: 2023
+      description: Actuated user experience lab.
+      
 
 - title: Honors and Awards
   type: time_table
   contents:
-    - year: 1921
+    - year: 2020
       items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
-      items: 
-        - Max Planck Medal
+        - US Presidential Scholar Nominee
+        - AP National Scholar
+   
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
+    - title: Deep Learning.
       items: 
         - Description 1.
         - Description 2.
-    - title: Topic 2.
+    - title: Integer Optimization.
       items:
         - Description 1.
         - Description 2.
@@ -94,4 +85,4 @@
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+    - <u>Hobbies:</u> Ultimate Frisbee, Tennis, Chess, Hiking, Outdoors.
