@@ -1,12 +1,14 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - spknash
+  
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - spknash/reddit-gen
+  - spknash/docker_class
+  - spknash/AOC-2022
+  - spknash/Fish
+  - spknash/Binary_Classification_scratch
+  - spknash/Apple-Pineapple
+  - spknash/Hugging-Face-Tut
+  - spknash/Utube-clips
+ 
