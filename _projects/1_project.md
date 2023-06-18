@@ -1,10 +1,10 @@
 ---
 layout: page
-title: project 1
-description: a project with a background image
-img: assets/img/12.jpg
+title: Apple-Pineapple Classifier
+description: A simple hugging-face space which can be used to classify fruit.
+img: assets/img/PPAP.png
 importance: 1
-category: work
+category: all
 ---
 
 Every project has a beautiful feature showcase page.

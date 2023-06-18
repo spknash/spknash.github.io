@@ -49,16 +49,6 @@
     - title: Research Intern
       institution: Dartmouth College
       year: 2019 - 2020
-
-- title: Research Projects
-  type: time_table
-  contents:
-    - title: <a href="https://users.wpi.edu/~atrapp/">Andrew Trapp, WPI</a>
-      year: 2023-Now
-      description: Integer optimization for decisioning.
-    - title: <a href="https://www.axlab.cs.uchicago.edu/">AxLab</a>
-      year: 2023
-      description: Actuated user experience lab.
       
 
 - title: Honors and Awards
@@ -73,14 +63,14 @@
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Deep Learning.
+    - title: Machine Learning.
       items: 
-        - Description 1.
-        - Description 2.
-    - title: Integer Optimization.
+        - Very interested in deep learning and end-to-end DL solutions to complex problems
+        - Participate in Kaggle competitions to practice deep learning, and other ML techniques as well
+    - title: Systems Design/Engineering
       items:
-        - Description 1.
-        - Description 2.
+        - Interested in tools like Docker and Kubernetes and how they can be used for deployment
+        - Cloud services/cloud technologies for app-development and deployment.
 
 - title: Other Interests
   type: list
