@@ -7,74 +7,140 @@ importance: 1
 category: all
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
-
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/PPAP.png" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
+    
 </div>
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, *bled* for your project, and then... you reveal its glory in the next row of images.
+In this post I’m going over how I made
+<a href="https://huggingface.co/spaces/suhaaspk/PPAP">this</a> simple
+hugging face space which can classify between different fruits when you
+input an image to the app. The first step is training the model which
+can classify apples and pineapples.
 
+I trained on google colab. Below are the necesary imports and mounting
+to my personal google drive.
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-{% raw %}
-```html
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
+``` python
+!pip install -Uqq fastai
+!pip install -Uqq bing_image_downloader
+from fastai.vision.all import *
+!pip install -Uqq gradio
+import gradio as gr
+from google.colab import drive
+drive.mount('/content/drive')
 ```
-{% endraw %}
+
+The plan is to use FastAI’s vision learner which is already trained to
+recognize many things in images, and finetune this model using images of
+apples and pineapples. The images to finetune are fetched using bing
+search. 100 images of each fruit are used.
+
+``` python
+from bing_image_downloader import downloader
+
+downloader.download("apple fruit", limit=100,  output_dir='dataset', adult_filter_off=True, force_replace=False, timeout=60)
+downloader.download("pineapple fruit", limit=100,  output_dir='dataset', adult_filter_off=True, force_replace=False, timeout=60)
+```
+
+Below is a small sample of the images taken from bing.
+
+``` python
+path = Path('dataset')
+dls = ImageDataLoaders.from_folder(path, train=".", valid_pct=0.2, seed=42, item_tfms=Resize(224))
+
+# Checking the data
+dls.show_batch(nrows=3, ncols=3)
+```
+
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/cell-4-output-1.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Sample of the bing images to fine tune the model
+</div>
+
+The next step is to finetune using the images and this is done using
+fastai’s learner in the following lines. It runs for 3 epochs. The
+training error continuously decreases as well as the validation error.
+The validation error is only slightly larger than training error and the
+distance between the two errors decreases for each epoch so I feel good
+there is not much overfitting.
+
+``` python
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune(3)
+```
+
+After the model is done training, I export the model to my google drive
+so I can upload to my hugging face spaces app.
+
+``` python
+learn.export('model.pkl')
+!mv 'dataset/model.pkl' '/content/drive/My Drive/Colab Projects/Apple-Pineapple'
+learn = load_learner('drive/My Drive/Colab Projects/Apple-Pineapple/model.pkl')
+```
+
+To create a hugging face space go
+<a href="https://huggingface.co/spaces/suhaaspk/PPAP">hugging face</a>
+and click create a new space. For this space I am going to use gradio.
+After creating the space you can add files and edit the app with git. I
+added the model.pkl which I had trained earlier to the space. And added
+app.py which creates the app.
+
+``` python
+import gradio as gr
+from gradio import components
+from fastai.vision.all import *
+import numpy as np
+
+learn = load_learner('model.pkl')
+
+labels = learn.dls.vocab
+def predict(img):
+    img = PILImage.create(np.array(img))
+    pred,pred_idx,probs = learn.predict(img)
+    return {labels[i]: float(probs[i]) for i in range(len(labels))}
+
+
+iface = gr.Interface(fn=predict, inputs=components.Image(shape=(512, 512)), outputs=components.Label(num_top_classes=3))
+
+iface.launch()
+```
+
+I could add app.py with git but model.pkl could not be added with git
+because the file was too large, so I added it manually on hf spaces.
+After the adding these files the app was able to build and now runs on
+hf spaces!
+
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/files.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    The files in hf spaces to make the app.
+</div>
+
+The final product and in action:
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/hf_app_final.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+
+
