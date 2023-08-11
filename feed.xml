@@ -1,5 +1,233 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-07-30T04:34:03+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Topic Modeling in Reddit</title><link href="https://spknash.github.io/blog/2023/Reddit-Topic-Modeling/" rel="alternate" type="text/html" title="Topic Modeling in Reddit" /><published>2023-07-28T00:00:00+00:00</published><updated>2023-07-28T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/Reddit-Topic-Modeling</id><content type="html" xml:base="https://spknash.github.io/blog/2023/Reddit-Topic-Modeling/"><![CDATA[<h1 id="most-common-topic-in-rchangemyview">Most Common Topic in r/changemyview</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-11T18:57:06+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Webex llama bot</title><link href="https://spknash.github.io/blog/2023/Webex-llama-bot/" rel="alternate" type="text/html" title="Webex llama bot" /><published>2023-08-11T00:00:00+00:00</published><updated>2023-08-11T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/Webex-llama-bot</id><content type="html" xml:base="https://spknash.github.io/blog/2023/Webex-llama-bot/"><![CDATA[<h1 id="webex-chatbot-to-increase-office-interaction">Webex chatbot to increase office interaction</h1>
+
+<p>This project started off as the project my team did for the intern hackathon at my summer internship. The topic of the hackathon was build something that improves remote and hybrid work. Our team decided that one of the biggest things lost during remote work is in person interaction and social interaction. It is very hard to become friends with someone when you don’t see them in person. Even harder to become friends when the only topic of conversation between you and them is a specific work task within the context of a work meeting. In person there are a lot more casual interactions in the hallway and especially during lunch that allow co-workers to become much closer to each other.</p>
+
+<p>Our idea was to create a application which pairs two random employees in the company for a 30 minute chat each week. I won’t talk about the implementation of the full application but only about what I did. I worked on all parts related to Webex. We needed to use the Webex API to automatically schedule meetings between two people in the org. We also decided to incorporate a webex chatbot which could do things like provide background information about each participant in the meeting and also do things like offer a potential fun meeting topic if the participants don’t know what to talk about. As I was making the chatbot I realized its not a very good chatbot if it only responds to certain commands. Like below:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/bot-help-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/bot-help-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/bot-help-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/bot-help.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>I wanted to use a Large language model to allow the bot to respond to messages more dynamically. The only issue is I don’t want to spend any money on this because this a purely for fun project and many llms require payment to either use their apis or require the use of cloud credits to host on a cloud platform. I arrived at an idea based on something I used to build the webex chatbot.</p>
+
+<h2 id="webex-chatbot">Webex chatbot</h2>
+
+<p>The webex chatbot was made using this template: <a href="https://github.com/WebexSamples/webex-bot-starter">github link</a>. I cloned this repo to my local and began to make changes. In order for the bot to work it needs to be able to communicate over http, so I used ngrok to expose the bot application to the internet.
+###What is ngrok and how does it work?
+When developing a web application, you typically run a local server that is only accessible on your personal computer. However, there might be instances where you need to share this local server with someone else on the internet, perhaps for testing, demonstrations, or external integrations like webhooks.</p>
+
+<p>This is where ngrok comes in. By running a simple command in your command line interface, ngrok provides you with a public URL (HTTP/HTTPS) that forwards incoming requests to your local server. This URL can be shared with anyone, and they’ll be able to access your locally running application as if it were hosted online.</p>
+
+<h3 id="general-use-cases">General Use Cases:</h3>
+<p>Testing on Different Devices: If you want to test how your application appears on different devices, ngrok makes it easy by allowing those devices to access your local server through the public URL.</p>
+
+<p>Collaborating with Team Members: If you’re working with team members who are not on the same local network, you can use ngrok to give them access to your development environment.</p>
+
+<p>Webhook Development and Testing: Many third-party services use webhooks to communicate with your application. Ngrok allows these services to connect with your local server, simplifying the process of developing and testing webhooks.</p>
+
+<p>Sharing a Demo with Clients: If you want to share a live demo of an application that’s still in development, ngrok enables you to do so without having to deploy it to a public server.</p>
+
+<p>Temporary Hosting for Hackathons or Prototyping: Quick prototyping or participation in hackathons often requires temporary public access to your local development. Ngrok provides a swift solution for these scenarios.</p>
+
+<p>In conclusion, ngrok is an essential tool for modern web development, offering a convenient way to share your local development environment with others. Its ease of use and wide range of applications make it an indispensable resource for developers seeking to streamline their workflow and collaboration efforts.</p>
+
+<h2 id="trying-to-use-llamacpp">Trying to use llama.cpp</h2>
+<p>So my webex bot at this point works well with limited structured commands but I wanted the catch-all case to give a best response using a large language model instead of not being able to handle a novel response. The first LLM I thought of using was llama because it seems to be the best performing open source langauge model at the moment but also because of llama.cpp which is a implementation of llama in C which is compact enough thata it can be run on Mac M1 or M2 chips. I forked llama.cpp and tried using it on local but the speed at which the response was very slow and it is also probably not great to run something so intensive on my Mac even if it was just for a hackathon/demo.</p>
+
+<p>The next idea was to use llama.cpp on colab – and use ngrok to expose llama to the internet so it can be used essentially as an inference api for any application I want to build.</p>
+
+<p>##Using llama.cpp and ngrok on Colab</p>
+
+<p>Now I can use llama.cpp to create an app on colab and expose it to the internet to my webex bot can use it as a inference API to generate responses. To use llama.cpp on colab I need to use llama-cpp-python which is python bindings for llama.cpp. I also use langchains to do some minor prompt templating.</p>
+
+<p>The imports:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.llms</span> <span class="kn">import</span> <span class="n">LlamaCpp</span>
+<span class="kn">from</span> <span class="n">langchain</span> <span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">LLMChain</span>
+<span class="kn">from</span> <span class="n">langchain.callbacks.manager</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="n">langchain.callbacks.streaming_stdout</span> <span class="kn">import</span> <span class="n">StreamingStdOutCallbackHandler</span>
+</code></pre></div></div>
+
+<p>The simple prompt template using langchains:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">template</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">{question}
+
+Answer: Let</span><span class="sh">'</span><span class="s">s work this out in a step by step way to be sure we have the right answer.</span><span class="sh">"""</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="nc">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">question</span><span class="sh">"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>This command declares a callback manager which allows the llm to produce tokens one by one chat-gpt style.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">callback_manager</span> <span class="o">=</span> <span class="nc">CallbackManager</span><span class="p">([</span><span class="nc">StreamingStdOutCallbackHandler</span><span class="p">()])</span>
+</code></pre></div></div>
+
+<p>This command gets the ggml file needed to use llama.cpp</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="p">.</span><span class="n">co</span><span class="o">/</span><span class="n">TheBloke</span><span class="o">/</span><span class="n">Llama</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">13</span><span class="n">B</span><span class="o">-</span><span class="n">chat</span><span class="o">-</span><span class="n">GGML</span><span class="o">/</span><span class="n">resolve</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">llama</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">13</span><span class="n">b</span><span class="o">-</span><span class="n">chat</span><span class="p">.</span><span class="n">ggmlv3</span><span class="p">.</span><span class="n">q4_0</span><span class="p">.</span><span class="nb">bin</span>
+</code></pre></div></div>
+
+<p>This next block of code sets the model parameters and creates the inference function: llm</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_gpu_layers</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Change this value based on your model and your GPU VRAM pool.
+</span><span class="n">n_batch</span> <span class="o">=</span> <span class="mi">512</span>  <span class="c1"># Should be between 1 and n_ctx, consider the amount of VRAM in your GPU.
+</span>
+<span class="c1"># Make sure the model path is correct for your system!
+</span><span class="n">llm</span> <span class="o">=</span> <span class="nc">LlamaCpp</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="o">=</span><span class="sh">"</span><span class="s">llama-2-13b-chat.ggmlv3.q4_0.bin</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">n_gpu_layers</span><span class="o">=</span><span class="n">n_gpu_layers</span><span class="p">,</span>
+    <span class="n">n_batch</span><span class="o">=</span><span class="n">n_batch</span><span class="p">,</span>
+    <span class="n">callback_manager</span><span class="o">=</span><span class="n">callback_manager</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now that we have the inference function we can create a app and expose to the internet using ngrok. First I test llm to see how fast it is.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">prompt</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+Are there hills in Peru?
+</span><span class="sh">"""</span>
+<span class="nf">llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Yes, Peru is home to a variety of landscapes including hills, mountains,
+ plains, and coastal areas. The Andes Mountains run through Peru, giving rise
+ to many high peaks and rolling hills. These geographical features create
+ diverse ecosystems throughout the country, from the high-altitude grasslands
+ of the Andean Plateau to the arid coastal plains.
+</code></pre></div></div>
+
+<p>It runs much faster than on local and it is a necesary improvement because it was way too slow on local. Now onto the app.  Initially I had trouble using ngrok, this was because I hadn’t authenticated my ngrok token and to do that I needed to run these commands:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="nb">bin</span><span class="p">.</span><span class="n">equinox</span><span class="p">.</span><span class="n">io</span><span class="o">/</span><span class="n">c</span><span class="o">/</span><span class="mi">4</span><span class="n">VmDzA7iaHb</span><span class="o">/</span><span class="n">ngrok</span><span class="o">-</span><span class="n">stable</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">amd64</span><span class="p">.</span><span class="nb">zip</span>
+<span class="err">!</span><span class="n">unzip</span> <span class="n">ngrok</span><span class="o">-</span><span class="n">stable</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">amd64</span><span class="p">.</span><span class="nb">zip</span>
+<span class="err">!</span><span class="p">.</span><span class="o">/</span><span class="n">ngrok</span> <span class="n">authtoken</span> <span class="o">*</span><span class="n">my</span><span class="o">-</span><span class="n">token</span><span class="o">*</span>
+</code></pre></div></div>
+
+<p>I made a flask app and which on a POST request to /generate, retrieves the prompt and generates the response, and packages the response in json and sends it back.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="n">flask_ngrok</span> <span class="kn">import</span> <span class="n">run_with_ngrok</span>
+<span class="kn">from</span> <span class="n">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="nc">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="nc">CORS</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>  <span class="c1"># Enable CORS for all routes
+</span><span class="nf">run_with_ngrok</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>  <span class="c1"># Start ngrok when app is run
+</span>
+<span class="c1"># Assuming llm is already defined and loaded elsewhere in your code
+# and you can get a response by calling llm(prompt)
+</span><span class="nd">@app.route</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">home</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">home page</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sh">'</span><span class="s">Hello, World!</span><span class="sh">'</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="sh">'</span><span class="s">/generate</span><span class="sh">'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">POST</span><span class="sh">'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">generating response ...</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">json</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">prompt</span><span class="sh">'</span><span class="p">]</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Received prompt: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># Print the received prompt
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="nf">llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Generated response: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># Print the generated response
+</span>
+    <span class="k">return</span> <span class="nf">jsonify</span><span class="p">({</span><span class="sh">'</span><span class="s">response</span><span class="sh">'</span><span class="p">:</span> <span class="n">response</span><span class="p">})</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">'</span><span class="s">__main__</span><span class="sh">'</span><span class="p">:</span>
+    <span class="n">app</span><span class="p">.</span><span class="nf">run</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Lets say this app runs on abc.ngrok-free.app. Now since this app is exposed to the internet I can make a POST request to this app in the app hosting the Webex bot.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">import</span> <span class="n">json</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Retrieve the prompt from command-line arguments
+</span><span class="n">url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">abc.ngrok-free.app/generate</span><span class="sh">"</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">prompt</span><span class="sh">"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">Content-Type</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">application/json</span><span class="sh">'</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="nf">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="nf">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">json</span><span class="p">()))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Failed to make request. Status code: </span><span class="si">{</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This script communicates with the main javascript file which produces the bot responses</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">const</span> <span class="p">{</span> <span class="k">exec</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="sh">'</span><span class="s">child_process</span><span class="sh">'</span><span class="p">);</span>
+
+    <span class="n">const</span> <span class="n">prompt</span> <span class="o">=</span> <span class="n">trigger</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
+    <span class="n">const</span> <span class="n">scriptPath</span> <span class="o">=</span> <span class="sh">'</span><span class="s">./make_post.py</span><span class="sh">'</span><span class="p">;</span> <span class="o">//</span> <span class="n">Make</span> <span class="n">sure</span> <span class="n">to</span> <span class="n">provide</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">script</span>
+
+    <span class="nf">exec</span><span class="p">(</span><span class="sb">`python ${scriptPath} "${prompt}"`</span><span class="p">,</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nf">if </span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="sb">`An error occurred: ${error}`</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">const</span> <span class="n">res</span> <span class="o">=</span> <span class="n">stdout</span><span class="p">.</span><span class="nf">trim</span><span class="p">();</span>
+      <span class="n">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="sb">`Response from Python: ${res.response}`</span><span class="p">);</span>
+
+      <span class="n">bot</span><span class="p">.</span><span class="nf">say</span><span class="p">(</span><span class="sb">`Sorry, I don't know how to respond to "${trigger.text}" but llama might`</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="n">bot</span><span class="p">.</span><span class="nf">say</span><span class="p">(</span><span class="sh">"</span><span class="s">markdown</span><span class="sh">"</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
+        <span class="o">//</span> <span class="p">.</span><span class="nf">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nf">sendHelp</span><span class="p">(</span><span class="n">bot</span><span class="p">))</span>
+        <span class="p">.</span><span class="nf">catch</span><span class="p">((</span><span class="n">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="sb">`Problem in the unexepected command hander: ${e.message}`</span><span class="p">));</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p>And lets see if that works:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/bot-llama-response-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/bot-llama-response-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/bot-llama-response-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/bot-llama-response.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>Yes it does!</p>
+<h2 id="final-thoughts">Final thoughts</h2>
+<p>So this project started off as a fun way to get more interaction in a remote workplace, but I think the most important thing I found here is how to create my own inference api using a very high quality LLM in llama v2 using ngrok and colab. I think soon this may not even be an issue, people are finding ways to compact these opensource language models so that they can be run on local computers and even micro controllers like Raspberry Pis. I am excited to see where that goes.</p>
+
+<p>This exposed me to some interesting concepts like ngrok for application development and the trend towards models being made light weight to run on devices is also very interesting – tiny ML as they call it. And I’ll probably go deeper into these topics later.</p>]]></content><author><name></name></author><category term="chat-bot," /><category term="llama," /><category term="networking," /><category term="colab" /><summary type="html"><![CDATA[Webex chatbot using llama.cpp and ngrok]]></summary></entry><entry><title type="html">Topic Modeling in Reddit</title><link href="https://spknash.github.io/blog/2023/Reddit-Topic-Modeling/" rel="alternate" type="text/html" title="Topic Modeling in Reddit" /><published>2023-07-28T00:00:00+00:00</published><updated>2023-07-28T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/Reddit-Topic-Modeling</id><content type="html" xml:base="https://spknash.github.io/blog/2023/Reddit-Topic-Modeling/"><![CDATA[<h1 id="most-common-topic-in-rchangemyview">Most Common Topic in r/changemyview</h1>
 
 <p>In this post I am tackling the problem: What is the most talked about issue/topic on r/changemyview right now?</p>
 
@@ -339,8 +567,8 @@ Top 5 words for Topic #15
 
 <p>There are also some hyper parameters which could be tuned to produce better results like: number of topics, n-grams during bag of words matrix, number of top words for each topic. Perhaps the results of this topic modeling could be improved a little more just by further tuning these hyper parameters.</p>
 
-<p>I am really interested to see how a model which does take into account the order of words could be used for topic modeling. An example includes BERTopic. There are also many extensions to LDA such as Dynamic LDA, Hierarchical Dirichlet Process, and GuidedLDA. I may explore these other techniques for topic modeling in future posts.</p>]]></content><author><name></name></author><category term="intro" /><summary type="html"><![CDATA[Supervised and Unsupervised Topic modeling on r/changemyview]]></summary></entry><entry><title type="html">First Post!</title><link href="https://spknash.github.io/blog/2023/first-post/" rel="alternate" type="text/html" title="First Post!" /><published>2023-07-02T00:00:00+00:00</published><updated>2023-07-02T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/first-post</id><content type="html" xml:base="https://spknash.github.io/blog/2023/first-post/"><![CDATA[<h2 id="motivation">Motivation</h2>
+<p>I am really interested to see how a model which does take into account the order of words could be used for topic modeling. An example includes BERTopic. There are also many extensions to LDA such as Dynamic LDA, Hierarchical Dirichlet Process, and GuidedLDA. I may explore these other techniques for topic modeling in future posts.</p>]]></content><author><name></name></author><category term="topic-modeling," /><category term="reddit," /><category term="colab" /><summary type="html"><![CDATA[Supervised and Unsupervised Topic modeling on r/changemyview]]></summary></entry><entry><title type="html">First Post!</title><link href="https://spknash.github.io/blog/2023/first-post/" rel="alternate" type="text/html" title="First Post!" /><published>2023-07-02T00:00:00+00:00</published><updated>2023-07-02T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/first-post</id><content type="html" xml:base="https://spknash.github.io/blog/2023/first-post/"><![CDATA[<h2 id="motivation">Motivation</h2>
 
-<p>Hello there! this is my first post. My motivation for writing here is to document my learning in the topics I am interested in (ML/DL, system design, math, programming, tech, etc.). I have always been very interested in how individuals continue to learn and improve their craft. I thought Jeremy Howards thoughts on how to learn are very insightful. He believes that practical application of a new concept is a more valuable first step than trying to understand all the foundational underpinnings. I tend to agree with that sentiment. Despite having so much information about how to learn, and how to improve I feel like there are still so many questions that are left unanswered. I want even more details: If you’re trying to learn more about Deep learning, what did you do each week? How did your view/understanding of a topic change as you went deeper into it? I am interested in these types of questions and by documenting my learning and improvement starting from the level of a beginner in many ways, I will leave behind a record of what I did, and how it helped me learn. This record will be really interesting for me to look back on, and hopefully it can help someone else too.</p>
+<p>Hello there! this is my first post. My motivation for writing here is to document my learning in the topics I am interested in (ML/DL, system design, math, programming, tech, etc.). I have always been very interested in how individuals continue to learn and improve their craft. I thought Jeremy Howards thoughts on how to learn are very insightful. He believes that practical application of a new concept is a more valuable first step than trying to understand all the foundational underpinnings. I tend to agree with that sentiment. Despite having so much information about how to learn, and how to improve I feel like there are still so many questions that are left unanswered. If you’re trying to learn more about Deep learning, what did you do each week? How did your view/understanding of a topic change as you went deeper into it? I am interested in these types of questions and by documenting my learning and improvement starting from the level of a beginner in many ways, I will leave behind a record of what I did, and how it helped me learn. This record will be really interesting for me to look back on, and hopefully it can help someone else too.</p>
 
 <hr />]]></content><author><name></name></author><category term="intro" /><summary type="html"><![CDATA[An overview of things I will talk about here]]></summary></entry></feed>
