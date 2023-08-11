@@ -3,7 +3,7 @@ layout: post
 title:  Topic Modeling in Reddit
 date:   2023-07-28 
 description: Supervised and Unsupervised Topic modeling on r/changemyview
-tags: intro
+tags: topic-modeling, reddit, colab
 categories: 
 ---
 
