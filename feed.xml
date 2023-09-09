@@ -1,5 +1,235 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-11T18:57:06+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Webex llama bot</title><link href="https://spknash.github.io/blog/2023/Webex-llama-bot/" rel="alternate" type="text/html" title="Webex llama bot" /><published>2023-08-11T00:00:00+00:00</published><updated>2023-08-11T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/Webex-llama-bot</id><content type="html" xml:base="https://spknash.github.io/blog/2023/Webex-llama-bot/"><![CDATA[<h1 id="webex-chatbot-to-increase-office-interaction">Webex chatbot to increase office interaction</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-09T03:30:12+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Echo Server cpp</title><link href="https://spknash.github.io/blog/2023/echo-server-cpp/" rel="alternate" type="text/html" title="Echo Server cpp" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/echo-server-cpp</id><content type="html" xml:base="https://spknash.github.io/blog/2023/echo-server-cpp/"><![CDATA[<h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
+
+<p>Hello! It has been a while since my last post. I have been busy with job applications and switching jobs the last few weeks and haven’t set aside enough time for this. From now on I’ll make sure to post every week I’ll say Monday even if what I am working on is not in any kind of finished state I’ll just put my progress or talk about something completely different. Like a filler episode in anime.</p>
+
+<p>This week I am getting started with C++ and neworking/socket programming. I want to learn C++ because I said on my resume and some job applications that I know it and I want to also improve my networking/socket programming skills. The end goal is to create a something more interesting like a packet sniffer (like libpcap) or a blockchain network but since I am just getting started this week I am getting used to socket programming in C++ and implementing an echo server and client</p>
+
+<h2 id="echo-server">Echo Server</h2>
+
+<p>One guide that was very helpful with getting familiar with socket programming in C was <a href="https://beej.us/guide/bgnet/html/split/slightly-advanced-techniques.html#blocking">Beej’s guide</a>. I knew the overall structure for a echo server. I would need:</p>
+<ol>
+  <li>Accept connection from client socket</li>
+  <li>Have multi-threading capability to allow the server to handle multiple clients simultaneously</li>
+  <li>Ability to read message from client and send message back</li>
+  <li>Client side should have some kind of command line program to allow client to type message and receive echo</li>
+</ol>
+
+<p>Some parts of this are in the server side and some parts are on the client side. I will start by going throught the server side.</p>
+
+<h2 id="server">Server</h2>
+<p>First some variables I initialized at the beginning of the program that I will use throughout server.cpp:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="n">new_fd</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">port_num</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sigaction</span> <span class="n">sa</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">addr_size</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_storage</span> <span class="n">their_addr</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="n">hints</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">sin_size</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">ipstr</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">hints</span><span class="p">);</span>
+<span class="n">hints</span><span class="p">.</span><span class="n">ai_family</span> <span class="o">=</span> <span class="n">AF_UNSPEC</span><span class="p">;</span> <span class="c1">// AF_INET or AF_INET6 to force version</span>
+<span class="n">hints</span><span class="p">.</span><span class="n">ai_socktype</span> <span class="o">=</span> <span class="n">SOCK_STREAM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">yes</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The first step is to get the address info of the server and that is done with the function ‘getaddrinfo’:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">((</span><span class="n">status</span> <span class="o">=</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"3490"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"getaddrinfo: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">gai_strerror</span><span class="p">(</span><span class="n">status</span><span class="p">));</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">};</span>
+</code></pre></div></div>
+
+<p>This populates <code class="language-plaintext highlighter-rouge">res</code> with a linked list of potential addresses that a client can bind to in the server. The next step is to iterate through the possible addresses and initialize a socket file descriptor using one of the valid addresses.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span> <span class="n">p</span><span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_next</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_family</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_socktype</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_protocol</span><span class="p">))</span><span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"server: socket"</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">yes</span><span class="p">,</span>
+                <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"setsockopt"</span><span class="p">);</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addr</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addrlen</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"server: bind"</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The socket fild descriptor(<code class="language-plaintext highlighter-rouge">sockfd</code>) will be set to the first address that is valid and if there are no valid addresses the program will exit:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">freeaddrinfo</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">==</span><span class="nb">NULL</span><span class="p">){</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Failed to bind</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The next step is for the socket to listen to incoming clients trying to connec to the server which is done through the <code class="language-plaintext highlighter-rouge">listen()</code> function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">BACKLOG</span><span class="p">)</span><span class="o">==-</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"listen"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">};</span>
+    <span class="c1">// waiting for connection now</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"server waiting for connections ... </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This code concludes the setup of the server; it now is able to listen to incoming clients. Now the server must accept clients and send echos to each client simultaneously as long as the server is active. Since the following functionality happens for the duration of the lifetime of the server, the remaining code is within a while loop: <code class="language-plaintext highlighter-rouge">while(1) </code></p>
+
+<p>The first step is to accept clients that connec to the server:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sin_size</span> <span class="o">=</span> <span class="k">sizeof</span> <span class="n">their_addr</span><span class="p">;</span>
+<span class="n">new_fd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">their_addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin_size</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">new_fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">perror</span><span class="p">(</span><span class="s">"accept"</span><span class="p">);</span>
+    <span class="k">continue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The return value of the <code class="language-plaintext highlighter-rouge">accept</code> function is the filedescriptor of the client socket and can be used as a parameter in <code class="language-plaintext highlighter-rouge">send</code> and <code class="language-plaintext highlighter-rouge">recv</code> to send and receive data from the client socket. After the client is connected to the server, the server must spawn a child process to handle this client simultaneously with the parent process as well as handling requests from other clients. This is where we must use <code class="language-plaintext highlighter-rouge">fork()</code> to do this. I also send a message to the client explaining what this particular server does:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span><span class="n">fork</span><span class="p">()</span> <span class="c1">// this is the child process</span>
+<span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span> <span class="c1">// child doesn't need the listener</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="s">"Hello! welcome to echo server. Type something and I'll type the exact same thing back. How exciting!!"</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now that the client is connected and running in a child process, the server must do what it is intended to do: echo messages from the client. So whenever the server socket receives data from this client it will send a message with the same data back to the client.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">){</span>
+    <span class="c1">//printf("trying to recv from client");</span>
+    <span class="kt">int</span> <span class="n">numbytes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+    <span class="n">numbytes</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbytes</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"sever: received '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbytes</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">){</span>
+        <span class="kt">int</span> <span class="n">bytes_sent</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">bytes_sent</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"exiting"</span><span class="p">);</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This concludes the logic needed on the server side. In summary, we get the address info of the server, initialize a socket file descriptor using the address, bind the socket to a specific port, listen to incoming connection requests form clients, accept connection from client, start a child process for client and send echo messages. Now we can move on to the client side logic which is very similar.</p>
+<h2 id="client">Client</h2>
+
+<p>The client side will be similar to the server side but instead of listening for requests, now we are making a connection request and we need to have functionality allowing the user to connect to a particular server and make echo requests to the server. The plan is to have the client executable run like this: <code class="language-plaintext highlighter-rouge">./client ***server name***</code> and once connected to the server the user should be able to type a message and receive the echo.</p>
+
+<p>First some variable intialized at the beginning of the script that will be used throughout client.cpp:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">numbytes</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="n">hints</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">sin_size</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>Make sure that the command line arguments are coming in correctly:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">"usage: client hostname</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now we get the address info of the server using the command line argument:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// getting addrinfo and binding to specific port</span>
+<span class="k">if</span> <span class="p">((</span><span class="n">status</span> <span class="o">=</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">"3490"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"getaddrinfo: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">gai_strerror</span><span class="p">(</span><span class="n">status</span><span class="p">));</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>The result is stored a linked list in res just as before. Just as before we iterate through the possible addresses and create a sock file descriptor using the first valid one and make a connection request:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span> <span class="n">p</span><span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_next</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_family</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_socktype</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_protocol</span><span class="p">))</span><span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"client: socket"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addr</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addrlen</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"client: connect"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>After the client is connected to the socket there will be a loop of the client receiving the message from the server then getting a prompt to make another echo request. If another echo request is made then another interation fo the loop happens. We will have a way for the client to break out of the loop and end the program if they type <code class="language-plaintext highlighter-rouge">exit</code> when they are prompted with another echo request.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">numbytes</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">MAXDATASIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"recv"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">buf</span><span class="p">[</span><span class="n">numbytes</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"client: received '%s' from server</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
+    
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a message: "</span><span class="p">);</span>
+    
+    <span class="c1">// Read a line of input from the user</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Error reading input.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Remove the trailing newline character, if any</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">buffer</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Exit the loop if the user types "exit"</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">"exit"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//printf("%s\n", buffer);</span>
+
+    <span class="c1">// send the message</span>
+    <span class="kt">int</span> <span class="n">bytes_sent</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">bytes_sent</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This concludes the client side code.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>To conclude – this was just a very short introduction into socket programming in C/C++ and I plan to go deeper into network programming. I feel I got a good understanding for setting up a server client connection and plan to do a more complicated network program next time like a network packet sniffer, or simple blockchain network. I’ll be back here next week!</p>]]></content><author><name></name></author><category term="networking," /><category term="C++" /><summary type="html"><![CDATA[Intro to socket programming in C++]]></summary></entry><entry><title type="html">Webex llama bot</title><link href="https://spknash.github.io/blog/2023/Webex-llama-bot/" rel="alternate" type="text/html" title="Webex llama bot" /><published>2023-08-11T00:00:00+00:00</published><updated>2023-08-11T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/Webex-llama-bot</id><content type="html" xml:base="https://spknash.github.io/blog/2023/Webex-llama-bot/"><![CDATA[<h1 id="webex-chatbot-to-increase-office-interaction">Webex chatbot to increase office interaction</h1>
 
 <p>This project started off as the project my team did for the intern hackathon at my summer internship. The topic of the hackathon was build something that improves remote and hybrid work. Our team decided that one of the biggest things lost during remote work is in person interaction and social interaction. It is very hard to become friends with someone when you don’t see them in person. Even harder to become friends when the only topic of conversation between you and them is a specific work task within the context of a work meeting. In person there are a lot more casual interactions in the hallway and especially during lunch that allow co-workers to become much closer to each other.</p>
 

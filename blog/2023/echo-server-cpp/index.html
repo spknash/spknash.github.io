@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    <!-- Metadata, OpenGraph and Schema.org -->
+    
+
+    <!-- Standard metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Echo Server cpp | Suhaas P Katikaneni</title>
+    <meta name="author" content="Suhaas P Katikaneni">
+    <meta name="description" content="Intro to socket programming in C++">
+    <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+    <!-- Bootstrap & MDB -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+    <!-- Bootstrap Table -->
+    <link defer rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+    <!-- Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
+
+    
+
+    <!-- Styles -->
+    
+    <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="https://spknash.github.io/blog/2023/echo-server-cpp/">
+
+    <!-- Dark Mode -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/native.css" media="none" id="highlight_theme_dark">
+
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/dark_mode.js"></script>
+    
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+    <header>
+
+      <!-- Nav Bar -->
+      <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top">
+        <div class="container">
+          <a class="navbar-brand title font-weight-lighter" href="/"><span class="font-weight-bold">Suhaas </span>P Katikaneni</a>
+          <!-- Navbar Toggle -->
+          <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+          </button>
+
+          <div class="collapse navbar-collapse text-right" id="navbarNav">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+
+              <!-- About -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/">about</a>
+              </li>
+              
+              <!-- Blog -->
+              <li class="nav-item active">
+                <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a>
+              </li>
+
+              <!-- Other pages -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/projects/">projects</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/repositories/">Repositories</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/cv/">cv</a>
+              </li>
+
+              <!-- Toogle theme mode -->
+              <li class="toggle-container">
+                <button id="light-toggle" title="Change theme">
+                  <i class="fas fa-moon"></i>
+                  <i class="fas fa-sun"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Scrolling Progress Bar -->
+      <progress id="progress" value="0">
+        <div class="progress-container">
+          <span class="progress-bar"></span>
+        </div>
+      </progress>
+    </header>
+
+
+    <!-- Content -->
+    <div class="container mt-5">
+      
+        <!-- _layouts/post.html -->
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Echo Server cpp</h1>
+    <p class="post-meta">September 9, 2023</p>
+    <p class="post-tags">
+      <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>
+        ·  
+        <a href="/blog/tag/networking">
+          <i class="fas fa-hashtag fa-sm"></i> networking,</a>  
+          <a href="/blog/tag/c">
+          <i class="fas fa-hashtag fa-sm"></i> C++</a>  
+          
+
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
+
+<p>Hello! It has been a while since my last post. I have been busy with job applications and switching jobs the last few weeks and haven’t set aside enough time for this. From now on I’ll make sure to post every week I’ll say Monday even if what I am working on is not in any kind of finished state I’ll just put my progress or talk about something completely different. Like a filler episode in anime.</p>
+
+<p>This week I am getting started with C++ and neworking/socket programming. I want to learn C++ because I said on my resume and some job applications that I know it and I want to also improve my networking/socket programming skills. The end goal is to create a something more interesting like a packet sniffer (like libpcap) or a blockchain network but since I am just getting started this week I am getting used to socket programming in C++ and implementing an echo server and client</p>
+
+<h2 id="echo-server">Echo Server</h2>
+
+<p>One guide that was very helpful with getting familiar with socket programming in C was <a href="https://beej.us/guide/bgnet/html/split/slightly-advanced-techniques.html#blocking" rel="external nofollow noopener" target="_blank">Beej’s guide</a>. I knew the overall structure for a echo server. I would need:</p>
+<ol>
+  <li>Accept connection from client socket</li>
+  <li>Have multi-threading capability to allow the server to handle multiple clients simultaneously</li>
+  <li>Ability to read message from client and send message back</li>
+  <li>Client side should have some kind of command line program to allow client to type message and receive echo</li>
+</ol>
+
+<p>Some parts of this are in the server side and some parts are on the client side. I will start by going throught the server side.</p>
+
+<h2 id="server">Server</h2>
+<p>First some variables I initialized at the beginning of the program that I will use throughout server.cpp:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="n">new_fd</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">port_num</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sigaction</span> <span class="n">sa</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">addr_size</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_storage</span> <span class="n">their_addr</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="n">hints</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">sin_size</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">ipstr</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">hints</span><span class="p">);</span>
+<span class="n">hints</span><span class="p">.</span><span class="n">ai_family</span> <span class="o">=</span> <span class="n">AF_UNSPEC</span><span class="p">;</span> <span class="c1">// AF_INET or AF_INET6 to force version</span>
+<span class="n">hints</span><span class="p">.</span><span class="n">ai_socktype</span> <span class="o">=</span> <span class="n">SOCK_STREAM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">yes</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The first step is to get the address info of the server and that is done with the function ‘getaddrinfo’:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">((</span><span class="n">status</span> <span class="o">=</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"3490"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"getaddrinfo: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">gai_strerror</span><span class="p">(</span><span class="n">status</span><span class="p">));</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">};</span>
+</code></pre></div></div>
+
+<p>This populates <code class="language-plaintext highlighter-rouge">res</code> with a linked list of potential addresses that a client can bind to in the server. The next step is to iterate through the possible addresses and initialize a socket file descriptor using one of the valid addresses.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span> <span class="n">p</span><span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_next</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_family</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_socktype</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_protocol</span><span class="p">))</span><span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"server: socket"</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">yes</span><span class="p">,</span>
+                <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"setsockopt"</span><span class="p">);</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addr</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addrlen</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"server: bind"</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The socket fild descriptor(<code class="language-plaintext highlighter-rouge">sockfd</code>) will be set to the first address that is valid and if there are no valid addresses the program will exit:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">freeaddrinfo</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">==</span><span class="nb">NULL</span><span class="p">){</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Failed to bind</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The next step is for the socket to listen to incoming clients trying to connec to the server which is done through the <code class="language-plaintext highlighter-rouge">listen()</code> function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">BACKLOG</span><span class="p">)</span><span class="o">==-</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"listen"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">};</span>
+    <span class="c1">// waiting for connection now</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"server waiting for connections ... </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This code concludes the setup of the server; it now is able to listen to incoming clients. Now the server must accept clients and send echos to each client simultaneously as long as the server is active. Since the following functionality happens for the duration of the lifetime of the server, the remaining code is within a while loop: <code class="language-plaintext highlighter-rouge">while(1) </code></p>
+
+<p>The first step is to accept clients that connec to the server:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sin_size</span> <span class="o">=</span> <span class="k">sizeof</span> <span class="n">their_addr</span><span class="p">;</span>
+<span class="n">new_fd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">their_addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin_size</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">new_fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">perror</span><span class="p">(</span><span class="s">"accept"</span><span class="p">);</span>
+    <span class="k">continue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The return value of the <code class="language-plaintext highlighter-rouge">accept</code> function is the filedescriptor of the client socket and can be used as a parameter in <code class="language-plaintext highlighter-rouge">send</code> and <code class="language-plaintext highlighter-rouge">recv</code> to send and receive data from the client socket. After the client is connected to the server, the server must spawn a child process to handle this client simultaneously with the parent process as well as handling requests from other clients. This is where we must use <code class="language-plaintext highlighter-rouge">fork()</code> to do this. I also send a message to the client explaining what this particular server does:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span><span class="n">fork</span><span class="p">()</span> <span class="c1">// this is the child process</span>
+<span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span> <span class="c1">// child doesn't need the listener</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="s">"Hello! welcome to echo server. Type something and I'll type the exact same thing back. How exciting!!"</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now that the client is connected and running in a child process, the server must do what it is intended to do: echo messages from the client. So whenever the server socket receives data from this client it will send a message with the same data back to the client.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">){</span>
+    <span class="c1">//printf("trying to recv from client");</span>
+    <span class="kt">int</span> <span class="n">numbytes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+    <span class="n">numbytes</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbytes</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"sever: received '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbytes</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">){</span>
+        <span class="kt">int</span> <span class="n">bytes_sent</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">bytes_sent</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"exiting"</span><span class="p">);</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This concludes the logic needed on the server side. In summary, we get the address info of the server, initialize a socket file descriptor using the address, bind the socket to a specific port, listen to incoming connection requests form clients, accept connection from client, start a child process for client and send echo messages. Now we can move on to the client side logic which is very similar.</p>
+<h2 id="client">Client</h2>
+
+<p>The client side will be similar to the server side but instead of listening for requests, now we are making a connection request and we need to have functionality allowing the user to connect to a particular server and make echo requests to the server. The plan is to have the client executable run like this: <code class="language-plaintext highlighter-rouge">./client ***server name***</code> and once connected to the server the user should be able to type a message and receive the echo.</p>
+
+<p>First some variable intialized at the beginning of the script that will be used throughout client.cpp:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">numbytes</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="n">hints</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">addrinfo</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="n">socklen_t</span> <span class="n">sin_size</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>Make sure that the command line arguments are coming in correctly:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">"usage: client hostname</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now we get the address info of the server using the command line argument:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// getting addrinfo and binding to specific port</span>
+<span class="k">if</span> <span class="p">((</span><span class="n">status</span> <span class="o">=</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">"3490"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hints</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"getaddrinfo: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">gai_strerror</span><span class="p">(</span><span class="n">status</span><span class="p">));</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>The result is stored a linked list in res just as before. Just as before we iterate through the possible addresses and create a sock file descriptor using the first valid one and make a connection request:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span> <span class="n">p</span><span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_next</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_family</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_socktype</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_protocol</span><span class="p">))</span><span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"client: socket"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addr</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">ai_addrlen</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"client: connect"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>After the client is connected to the socket there will be a loop of the client receiving the message from the server then getting a prompt to make another echo request. If another echo request is made then another interation fo the loop happens. We will have a way for the client to break out of the loop and end the program if they type <code class="language-plaintext highlighter-rouge">exit</code> when they are prompted with another echo request.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">numbytes</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">MAXDATASIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"recv"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">buf</span><span class="p">[</span><span class="n">numbytes</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"client: received '%s' from server</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
+    
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a message: "</span><span class="p">);</span>
+    
+    <span class="c1">// Read a line of input from the user</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Error reading input.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Remove the trailing newline character, if any</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">buffer</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Exit the loop if the user types "exit"</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">"exit"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//printf("%s\n", buffer);</span>
+
+    <span class="c1">// send the message</span>
+    <span class="kt">int</span> <span class="n">bytes_sent</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">bytes_sent</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"send"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This concludes the client side code.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>To conclude – this was just a very short introduction into socket programming in C/C++ and I plan to go deeper into network programming. I feel I got a good understanding for setting up a server client connection and plan to do a more complicated network program next time like a network packet sniffer, or simple blockchain network. I’ll be back here next week!</p>
+
+
+    </div>
+  </article>
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->    
+    <footer class="fixed-bottom">
+      <div class="container mt-0">
+        © Copyright 2023 Suhaas P Katikaneni. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+      </div>
+    </footer>
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+    
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.8/dist/medium-zoom.min.js" integrity="sha256-7PhEpEWEW0XXQ0k6kQrPKwuoIomz8R8IYyuU1Qew4P8=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js"></script>
+
+  <!-- Bootstrap Table -->
+  <script defer src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+
+  <!-- Load Common JS -->
+  <script src="/assets/js/no_defer.js"></script>
+  <script defer src="/assets/js/common.js"></script>
+  <script defer src="/assets/js/copy_code.js" type="text/javascript"></script>
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+    <!-- MathJax -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    
+    
+
+<!-- Scrolling Progress Bar -->
+<script type="text/javascript">
+  /*
+   * This JavaScript code has been adapted from the article 
+   * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar, 
+   * published on the website https://css-tricks.com on the 7th of May, 2014.
+   * Couple of changes were made to the original code to make it compatible 
+   * with the `al-foio` theme.
+   */
+  const progressBar = $("#progress");
+  /*
+   * We set up the bar after all elements are done loading.
+   * In some cases, if the images in the page are larger than the intended
+   * size they'll have on the page, they'll be resized via CSS to accomodate
+   * the desired size. This mistake, however, breaks the computations as the
+   * scroll size is computed as soon as the elements finish loading.
+   * To account for this, a minimal delay was introduced before computing the
+   * values.
+   */
+  window.onload = function () {
+    setTimeout(progressBarSetup, 50);
+  };
+  /*
+   * We set up the bar according to the browser.
+   * If the browser supports the progress element we use that.
+   * Otherwise, we resize the bar thru CSS styling
+   */
+  function progressBarSetup() {
+    if ("max" in document.createElement("progress")) {
+      initializeProgressElement();
+      $(document).on("scroll", function() {
+        progressBar.attr({ value: getCurrentScrollPosition() });
+      });
+      $(window).on("resize", initializeProgressElement);
+    } else {
+      resizeProgressBar();
+      $(document).on("scroll", resizeProgressBar);
+      $(window).on("resize", resizeProgressBar);
+    }
+  }
+  /*
+   * The vertical scroll position is the same as the number of pixels that
+   * are hidden from view above the scrollable area. Thus, a value > 0 is
+   * how much the user has scrolled from the top
+   */
+  function getCurrentScrollPosition() {
+    return $(window).scrollTop();
+  }
+
+  function initializeProgressElement() {
+    let navbarHeight = $("#navbar").outerHeight(true);
+    $("body").css({ "padding-top": navbarHeight });
+    $("progress-container").css({ "padding-top": navbarHeight });
+    progressBar.css({ top: navbarHeight });
+    progressBar.attr({
+      max: getDistanceToScroll(),
+      value: getCurrentScrollPosition(),
+    });
+  }
+  /*
+   * The offset between the html document height and the browser viewport
+   * height will be greater than zero if vertical scroll is possible.
+   * This is the distance the user can scroll
+   */
+  function getDistanceToScroll() {
+    return $(document).height() - $(window).height();
+  }
+
+  function resizeProgressBar() {
+    progressBar.css({ width: getWidthPercentage() + "%" });
+  }
+  // The scroll ratio equals the percentage to resize the bar
+  function getWidthPercentage() {
+    return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+  }
+</script>
+
+  </body>
+</html>
