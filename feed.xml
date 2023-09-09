@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-09T03:30:12+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-09T22:45:06+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Echo Server cpp</title><link href="https://spknash.github.io/blog/2023/echo-server-cpp/" rel="alternate" type="text/html" title="Echo Server cpp" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/echo-server-cpp</id><content type="html" xml:base="https://spknash.github.io/blog/2023/echo-server-cpp/"><![CDATA[<h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
 
 <p>Hello! It has been a while since my last post. I have been busy with job applications and switching jobs the last few weeks and haven’t set aside enough time for this. From now on I’ll make sure to post every week I’ll say Monday even if what I am working on is not in any kind of finished state I’ll just put my progress or talk about something completely different. Like a filler episode in anime.</p>
@@ -226,6 +226,111 @@
 </code></pre></div></div>
 
 <p>This concludes the client side code.</p>
+
+<p>Here is a quick demo of how it works</p>
+
+<p>After <code class="language-plaintext highlighter-rouge">./server</code> is run we get this:</p>
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/echo1-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/echo1-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/echo1-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/echo1.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>After the client connects to the server we see this on the server side:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/echo2-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/echo2-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/echo2-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/echo2.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>This is what the client sees when they connect to the client and enters a message to the server:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/echo3-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/echo3-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/echo3-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/echo3.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>And this is what is seen on the server side after the client sends a message to the server:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/echo4-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/echo4-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/echo4-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/echo4.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
 
 <h2 id="final-thoughts">Final Thoughts</h2>
 
