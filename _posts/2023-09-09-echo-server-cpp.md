@@ -262,6 +262,51 @@ while (1) {
 
 This concludes the client side code.
 
+Here is a quick demo of how it works
+
+After `./server` is run we get this:
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/echo1.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+After the client connects to the server we see this on the server side:
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/echo2.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+This is what the client sees when they connect to the client and enters a message to the server:
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/echo3.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+And this is what is seen on the server side after the client sends a message to the server:
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/echo4.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
 ## Final Thoughts
 
 To conclude -- this was just a very short introduction into socket programming in C/C++ and I plan to go deeper into network programming. I feel I got a good understanding for setting up a server client connection and plan to do a more complicated network program next time like a network packet sniffer, or simple blockchain network. I'll be back here next week!
