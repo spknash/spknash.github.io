@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-09T22:45:06+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-13T03:24:30+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Echo Server cpp</title><link href="https://spknash.github.io/blog/2023/echo-server-cpp/" rel="alternate" type="text/html" title="Echo Server cpp" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/echo-server-cpp</id><content type="html" xml:base="https://spknash.github.io/blog/2023/echo-server-cpp/"><![CDATA[<h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
 
 <p>Hello! It has been a while since my last post. I have been busy with job applications and switching jobs the last few weeks and haven’t set aside enough time for this. From now on I’ll make sure to post every week I’ll say Monday even if what I am working on is not in any kind of finished state I’ll just put my progress or talk about something completely different. Like a filler episode in anime.</p>
@@ -902,7 +902,190 @@ Top 5 words for Topic #15
 
 <p>There are also some hyper parameters which could be tuned to produce better results like: number of topics, n-grams during bag of words matrix, number of top words for each topic. Perhaps the results of this topic modeling could be improved a little more just by further tuning these hyper parameters.</p>
 
-<p>I am really interested to see how a model which does take into account the order of words could be used for topic modeling. An example includes BERTopic. There are also many extensions to LDA such as Dynamic LDA, Hierarchical Dirichlet Process, and GuidedLDA. I may explore these other techniques for topic modeling in future posts.</p>]]></content><author><name></name></author><category term="topic-modeling," /><category term="reddit," /><category term="colab" /><summary type="html"><![CDATA[Supervised and Unsupervised Topic modeling on r/changemyview]]></summary></entry><entry><title type="html">First Post!</title><link href="https://spknash.github.io/blog/2023/first-post/" rel="alternate" type="text/html" title="First Post!" /><published>2023-07-02T00:00:00+00:00</published><updated>2023-07-02T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/first-post</id><content type="html" xml:base="https://spknash.github.io/blog/2023/first-post/"><![CDATA[<h2 id="motivation">Motivation</h2>
+<p>I am really interested to see how a model which does take into account the order of words could be used for topic modeling. An example includes BERTopic. There are also many extensions to LDA such as Dynamic LDA, Hierarchical Dirichlet Process, and GuidedLDA. I may explore these other techniques for topic modeling in future posts.</p>]]></content><author><name></name></author><category term="topic-modeling," /><category term="reddit," /><category term="colab" /><summary type="html"><![CDATA[Supervised and Unsupervised Topic modeling on r/changemyview]]></summary></entry><entry><title type="html">Apple-Pineapple Classifier</title><link href="https://spknash.github.io/blog/2023/PPAP/" rel="alternate" type="text/html" title="Apple-Pineapple Classifier" /><published>2023-07-14T00:00:00+00:00</published><updated>2023-07-14T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/PPAP</id><content type="html" xml:base="https://spknash.github.io/blog/2023/PPAP/"><![CDATA[<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/PPAP-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/PPAP-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/PPAP-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/PPAP.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>In this post I’m going over how I made
+<a href="https://huggingface.co/spaces/suhaaspk/PPAP">this</a> simple
+hugging face space which can classify between different fruits when you
+input an image to the app. The first step is training the model which
+can classify apples and pineapples.</p>
+
+<p>I trained on google colab. Below are the necesary imports and mounting
+to my personal google drive.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">Uqq</span> <span class="n">fastai</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">Uqq</span> <span class="n">bing_image_downloader</span>
+<span class="kn">from</span> <span class="n">fastai.vision.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">Uqq</span> <span class="n">gradio</span>
+<span class="kn">import</span> <span class="n">gradio</span> <span class="k">as</span> <span class="n">gr</span>
+<span class="kn">from</span> <span class="n">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="p">.</span><span class="nf">mount</span><span class="p">(</span><span class="sh">'</span><span class="s">/content/drive</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The plan is to use FastAI’s vision learner which is already trained to
+recognize many things in images, and finetune this model using images of
+apples and pineapples. The images to finetune are fetched using bing
+search. 100 images of each fruit are used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">bing_image_downloader</span> <span class="kn">import</span> <span class="n">downloader</span>
+
+<span class="n">downloader</span><span class="p">.</span><span class="nf">download</span><span class="p">(</span><span class="sh">"</span><span class="s">apple fruit</span><span class="sh">"</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="n">output_dir</span><span class="o">=</span><span class="sh">'</span><span class="s">dataset</span><span class="sh">'</span><span class="p">,</span> <span class="n">adult_filter_off</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">force_replace</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">downloader</span><span class="p">.</span><span class="nf">download</span><span class="p">(</span><span class="sh">"</span><span class="s">pineapple fruit</span><span class="sh">"</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="n">output_dir</span><span class="o">=</span><span class="sh">'</span><span class="s">dataset</span><span class="sh">'</span><span class="p">,</span> <span class="n">adult_filter_off</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">force_replace</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Below is a small sample of the images taken from bing.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">path</span> <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">'</span><span class="s">dataset</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders</span><span class="p">.</span><span class="nf">from_folder</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="sh">"</span><span class="s">.</span><span class="sh">"</span><span class="p">,</span> <span class="n">valid_pct</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">item_tfms</span><span class="o">=</span><span class="nc">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">))</span>
+
+<span class="c1"># Checking the data
+</span><span class="n">dls</span><span class="p">.</span><span class="nf">show_batch</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/cell-4-output-1-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/cell-4-output-1-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/cell-4-output-1-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/cell-4-output-1.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    Sample of the bing images to fine tune the model
+</div>
+
+<p>The next step is to finetune using the images and this is done using
+fastai’s learner in the following lines. It runs for 3 epochs. The
+training error continuously decreases as well as the validation error.
+The validation error is only slightly larger than training error and the
+distance between the two errors decreases for each epoch so I feel good
+there is not much overfitting.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span> <span class="o">=</span> <span class="nf">vision_learner</span><span class="p">(</span><span class="n">dls</span><span class="p">,</span> <span class="n">resnet18</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">error_rate</span><span class="p">)</span>
+<span class="n">learn</span><span class="p">.</span><span class="nf">fine_tune</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>After the model is done training, I export the model to my google drive
+so I can upload to my hugging face spaces app.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span><span class="p">.</span><span class="nf">export</span><span class="p">(</span><span class="sh">'</span><span class="s">model.pkl</span><span class="sh">'</span><span class="p">)</span>
+<span class="err">!</span><span class="n">mv</span> <span class="sh">'</span><span class="s">dataset/model.pkl</span><span class="sh">'</span> <span class="sh">'</span><span class="s">/content/drive/My Drive/Colab Projects/Apple-Pineapple</span><span class="sh">'</span>
+<span class="n">learn</span> <span class="o">=</span> <span class="nf">load_learner</span><span class="p">(</span><span class="sh">'</span><span class="s">drive/My Drive/Colab Projects/Apple-Pineapple/model.pkl</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>To create a hugging face space go
+<a href="https://huggingface.co/spaces/suhaaspk/PPAP">hugging face</a>
+and click create a new space. For this space I am going to use gradio.
+After creating the space you can add files and edit the app with git. I
+added the model.pkl which I had trained earlier to the space. And added
+app.py which creates the app.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">gradio</span> <span class="k">as</span> <span class="n">gr</span>
+<span class="kn">from</span> <span class="n">gradio</span> <span class="kn">import</span> <span class="n">components</span>
+<span class="kn">from</span> <span class="n">fastai.vision.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">learn</span> <span class="o">=</span> <span class="nf">load_learner</span><span class="p">(</span><span class="sh">'</span><span class="s">model.pkl</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="n">learn</span><span class="p">.</span><span class="n">dls</span><span class="p">.</span><span class="n">vocab</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">PILImage</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+    <span class="n">pred</span><span class="p">,</span><span class="n">pred_idx</span><span class="p">,</span><span class="n">probs</span> <span class="o">=</span> <span class="n">learn</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="nf">float</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))}</span>
+
+
+<span class="n">iface</span> <span class="o">=</span> <span class="n">gr</span><span class="p">.</span><span class="nc">Interface</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">predict</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">components</span><span class="p">.</span><span class="nc">Image</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)),</span> <span class="n">outputs</span><span class="o">=</span><span class="n">components</span><span class="p">.</span><span class="nc">Label</span><span class="p">(</span><span class="n">num_top_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">iface</span><span class="p">.</span><span class="nf">launch</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>I could add app.py with git but model.pkl could not be added with git
+because the file was too large, so I added it manually on hf spaces.
+After the adding these files the app was able to build and now runs on
+hf spaces!</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/files-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/files-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/files-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/files.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    The files in hf spaces to make the app.
+</div>
+
+<p>The final product and in action:</p>
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/hf_app_final-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/hf_app_final-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/hf_app_final-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/hf_app_final.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>]]></content><author><name></name></author><category term="tutorial," /><category term="intro" /><summary type="html"><![CDATA[A simple hugging-face space which can be used to classify fruit.]]></summary></entry><entry><title type="html">First Post!</title><link href="https://spknash.github.io/blog/2023/first-post/" rel="alternate" type="text/html" title="First Post!" /><published>2023-07-02T00:00:00+00:00</published><updated>2023-07-02T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/first-post</id><content type="html" xml:base="https://spknash.github.io/blog/2023/first-post/"><![CDATA[<h2 id="motivation">Motivation</h2>
 
 <p>Hello there! this is my first post. My motivation for writing here is to document my learning in the topics I am interested in (ML/DL, system design, math, programming, tech, etc.). I have always been very interested in how individuals continue to learn and improve their craft. I thought Jeremy Howards thoughts on how to learn are very insightful. He believes that practical application of a new concept is a more valuable first step than trying to understand all the foundational underpinnings. I tend to agree with that sentiment. Despite having so much information about how to learn, and how to improve I feel like there are still so many questions that are left unanswered. If you’re trying to learn more about Deep learning, what did you do each week? How did your view/understanding of a topic change as you went deeper into it? I am interested in these types of questions and by documenting my learning and improvement starting from the level of a beginner in many ways, I will leave behind a record of what I did, and how it helped me learn. This record will be really interesting for me to look back on, and hopefully it can help someone else too.</p>
 

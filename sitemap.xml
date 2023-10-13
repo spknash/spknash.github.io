@@ -17,6 +17,10 @@
 <lastmod>2023-07-02T00:00:00+00:00</lastmod>
 </url>
 <url>
+<loc>https://spknash.github.io/blog/2023/PPAP/</loc>
+<lastmod>2023-07-14T00:00:00+00:00</lastmod>
+</url>
+<url>
 <loc>https://spknash.github.io/blog/2023/Reddit-Topic-Modeling/</loc>
 <lastmod>2023-07-28T00:00:00+00:00</lastmod>
 </url>
@@ -27,10 +31,6 @@
 <url>
 <loc>https://spknash.github.io/blog/2023/echo-server-cpp/</loc>
 <lastmod>2023-09-09T00:00:00+00:00</lastmod>
-</url>
-<url>
-<loc>https://spknash.github.io/projects/1_project/</loc>
-<lastmod>2023-09-09T22:45:06+00:00</lastmod>
 </url>
 <url>
 <loc>https://spknash.github.io/</loc>
@@ -58,6 +58,9 @@
 </url>
 <url>
 <loc>https://spknash.github.io/blog/tag/intro/</loc>
+</url>
+<url>
+<loc>https://spknash.github.io/blog/tag/tutorial/</loc>
 </url>
 <url>
 <loc>https://spknash.github.io/blog/tag/topic-modeling/</loc>
