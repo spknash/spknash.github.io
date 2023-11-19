@@ -39,16 +39,13 @@
 
     - title: Software Development Intern
       institution: MITRE Corp
-      year: 1920-2021
+      year: 2020-2021
 
     - title: UX/UI Intern
       institution: 1Cademy
       year: 2021
       description:
 
-    - title: Research Intern
-      institution: Dartmouth College
-      year: 2019 - 2020
       
 
 - title: Honors and Awards
@@ -69,10 +66,10 @@
         - Participate in Kaggle competitions to practice deep learning, and other ML techniques as well
     - title: Systems Design/Engineering
       items:
-        - Interested in tools like Docker and Kubernetes and how they can be used for deployment
+        - Interested in tools like Docker and Kubernetes and how they can be used for deployment/infrastructure
         - Cloud services/cloud technologies for app-development and deployment.
 
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Ultimate Frisbee, Tennis, Chess, Hiking, Outdoors.
+    - <u>Hobbies:</u> Ultimate Frisbee, Tennis, Chess, Hiking
