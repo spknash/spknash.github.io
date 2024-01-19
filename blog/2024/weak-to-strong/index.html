@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    <!-- Metadata, OpenGraph and Schema.org -->
+    
+
+    <!-- Standard metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Weak to Strong Generalization | Suhaas</title>
+    <meta name="author" content="Suhaas  ">
+    <meta name="description" content="Review of new paper on super aligment and weak to strong generalization">
+    <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+    <!-- Bootstrap & MDB -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+    <!-- Bootstrap Table -->
+    <link defer rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+    <!-- Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
+
+    
+
+    <!-- Styles -->
+    
+    <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="https://spknash.github.io/blog/2024/weak-to-strong/">
+
+    <!-- Dark Mode -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/native.css" media="none" id="highlight_theme_dark">
+
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/dark_mode.js"></script>
+    
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+    <header>
+
+      <!-- Nav Bar -->
+      <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top">
+        <div class="container">
+          <a class="navbar-brand title font-weight-lighter" href="/">Suhaas</a>
+          <!-- Navbar Toggle -->
+          <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+          </button>
+
+          <div class="collapse navbar-collapse text-right" id="navbarNav">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+
+              <!-- About -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/">about</a>
+              </li>
+              
+              <!-- Blog -->
+              <li class="nav-item active">
+                <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a>
+              </li>
+
+              <!-- Other pages -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/repositories/">Repositories</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/cv/">cv</a>
+              </li>
+
+              <!-- Toogle theme mode -->
+              <li class="toggle-container">
+                <button id="light-toggle" title="Change theme">
+                  <i class="fas fa-moon"></i>
+                  <i class="fas fa-sun"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Scrolling Progress Bar -->
+      <progress id="progress" value="0">
+        <div class="progress-container">
+          <span class="progress-bar"></span>
+        </div>
+      </progress>
+    </header>
+
+
+    <!-- Content -->
+    <div class="container mt-5">
+      
+        <!-- _layouts/post.html -->
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Weak to Strong Generalization</h1>
+    <p class="post-meta">January 19, 2024</p>
+    <p class="post-tags">
+      <a href="/blog/2024"> <i class="fas fa-calendar fa-sm"></i> 2024 </a>
+        ·  
+        <a href="/blog/tag/ai">
+          <i class="fas fa-hashtag fa-sm"></i> AI,</a>  
+          <a href="/blog/tag/alignment">
+          <i class="fas fa-hashtag fa-sm"></i> Alignment</a>  
+          
+
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="weak-to-strong-generalization-openai">Weak-to-Strong Generalization (OpenAI)</h1>
+
+<p>OpenAI recently came out with a paper titled <em>Weak-to-Strong Generalization: Eliciting Strong Capabilities using Weak Supervision</em>. The paper tackles the broad problem of super human alignment – how will humans supervise superhuman artificial intelligence. Since superintelligent AI does not exist yet, this alignment problem can not be tackled directly. The authors choose to tackle an analogous problem – can a weak model supervise a strong model(both of whichare sub-human intelligence)? I found this paper to be very interesting. It shows that weak-to-strong generalisation is tractable based on the experiments they ran, however a significant percentage of strong capabilities are not elicitied using weak supervision.</p>
+
+<p>In this post I’ll summarize methods used, results, and conclusions of the paper. Then I’ll look ahead to experiments that I am doing which were inspired by this paper.</p>
+
+<h2 id="aligning-superintelligence">Aligning Superintelligence</h2>
+
+<p>Aligning Superintelligence is one of the grand challenges of AI. Modern day sota models use human supervision for alignment. This is fine because humans are still stronger than the current models. However when superintelligent AI exists, they will be stronger than humans and humans can only weakly supervise these models. Superintelligent AI does not exist yet, so a close analogous situation is weak-to-strong generalization – a weak model supervising a strong model. The authors aim to show that weak-to-strong generalazation and take the first steps towards super alignment.</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak_strong-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak_strong-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak_strong-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak_strong.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<h2 id="methodology">Methodology</h2>
+
+<p>GPT-2 is used as the weak supervisor, and GPT-4 is used as the strong student in the experiments</p>
+
+<p>The experiment the authors conducted is structured in the following way. A weak supervisor is finetuned on the ground truth, and this model makes predictions on test data(Call the score of the weak model WM). A strong student is trained with weak supervision, ie the strong model is finetuned on labels produced by the weak model. This model then makes predictions on the test data(Call the score of this weakly trained strong model WTS). Finally, as a benchmark, the strong model is trained on the ground truth and labels the test data(Call the score of this model SM). The effectiveness of the weak-to-strong generalization is measured by the Performance Gap Recovered(PGR) which is the percent of the performance gap between the weak model and strong model covered by the weak to strong model. So the PGR = (WTS-WM)/(SM-WM). In other words if the PGR is 0% the weak to strong generalization was completely innefective and the weakly supervised strong model performed the same as the weak model. If PGR is 100% then it was very effective and the weak to strong generalization is just as good as the strong model.</p>
+
+<p>Some advantages of this setup include:</p>
+
+<ul>
+  <li>Any weak and strong models acn be used in this experiment, as long as there are task and measurement methods to assess performance on tasks.</li>
+  <li>Similarly, any set of tasks can be used</li>
+  <li>The authors say success in weak-to-strong generalization will help with alignment of current models.</li>
+</ul>
+
+<p>There are also some limits of this setup. Specifically, there are disanalogies to the problem of humans supervising super intelligent AI.</p>
+
+<ul>
+  <li>The first is Imitation Saliency: The errors weak models make may be differenct than the errors humans make.</li>
+  <li>The second is Pretraining Leakage: The pretraining data in the strong models used in these experiments contains supervision from humans. So in the experiment, the weakly trained strong models may be artificially producing the correct answer in some cases because of their human supervised pretraining. Howerver, super-intelligence may not be created using human supervision, eg self-supervised training. This would make it harder to elicit from super human models.</li>
+</ul>
+
+<h2 id="results">Results</h2>
+
+<p>The tasks used in the experiment are the following:</p>
+
+<ul>
+  <li>Popular NLP benchmarks: all datasets converted to binary classification, these tasks include sentiment analysis, natural language inference and more</li>
+  <li>Chess Puzzles: data set of puzzles which is a position on the chess board and the label is the best next move. This is the only generative task used in this experiment</li>
+  <li>GPT reward modeling: a binary dataset of pairs of gpt responses and the label is the better completion result</li>
+</ul>
+
+<p>First the authors did plain weak-to-strong generalization with no additional mathods used and tested to get a benchmark. On the NLP benchmarks test, the PGR was between 20% and 50% with the PGR increasing as the model size of the strong model increases. On the chess puzzles task, the PGR is close to 0% for small weak model size and it increases to 40% for the largest weak model size. The PGR does not increase with an increase of strong model size. On the GPT reward modeling task, the PGR is always quite low never crossing 25% PGR. On all these tasks the PGR was greater than 0% but still very far from the ceiling set by the strong model trained on the ground truth. The highest PGR in any task was around 50%. These results show that weak-to-strong generalization is tractable but many improvements need to be made before it is a viable alignment technique.</p>
+
+<p>The authors then show results from experiments using weak-to-strong generalization but with different improvements. The first is bootstrapping.</p>
+
+<p>Bootstrapping is a method that has been talked about for super alignment before. The idea is to train a model slightly stronger than the weak model, then use this model to train a slightly stronger model than itself, and so on until you train the strong model you are trying to align. In this experiment, the authors used two intermediary models(I1 and I2) between GPT2 and GPT4. So GPT-2 trained I1 which trained I2 which trained GPT-4. Bootstrapping showed a significant improvement in the chess puzzles task, the largest improvement being around a 25% increase in the PGR. The other tasks, however, did not show much improvement.</p>
+
+<p>The second method which caused gains for weak-to-strong supervision was the auxillary confidence loss term. One of the main things causing errors in the weak-to-strong training is the strong model will sometimes imitate the mistakes of the weak supervisor. Giving the strong model the ability to disagree with the weak models label using its pretraining knowledge would help improve the weak-to-strong generalization. That is what adding the auxillary confidence loss term to standard cross entropy does. During training, if the strong model disagrees with the weak models labels, this label will not affec the model weights very much. This method dramatically improves PGR expecially in large gaps between the size of weak and strong models.</p>
+
+<h2 id="understanding-weak-to-strong-generalization">Understanding Weak-to-Strong Generalization</h2>
+
+<p>The authors identify two major phenomena related to weak-to-strong generalization: Imitation of weak supervisor mistakes, and saliency of tasks in the strong model.</p>
+
+<h3 id="weak-supervisor-imitation">Weak Supervisor Imitation</h3>
+
+<p>The strong model repeating the weak models mistakes reduces the effectiveness of weak to strong generalization. One cause of mistake imitation is the strong model overfitting with the weak model. This can be reduced by using techniques commonly used to fix over-fitting like regularization or early stopping of training. Another reason for imitation is high supervisor-student agreement. From the experiment they saw that introducing confidence loss significantly decreased model agreement and the PGR increased as well.</p>
+
+<h3 id="saliency-of-strong-model-representations">Saliency of Strong model representations</h3>
+
+<p>Some of the PGR acheived by the strong model could be due to the inherent saliency of the tasks in the strong model. For example, if GPT-4 was trained using data similar to the popular NLP tasks it may be able to acheive better results than the weak model without any finetuning. The authors tested this by seeing how accurate the strong models were with zero-shot or few shot prompting. For smaller strong models the PGR acheived was minimal but for larger students the PGR was significantly higher and comparable to results of the weakly supervised model. However, weakly supervised models with confidence loss generally outperforms zero-shot and few-shot prompting even for large models.</p>
+
+<p>If salient representations of the task are ineherent in the pretrained strong model, then weak-to-strong generalization could be improved by using unsupervised finetuning in order to bring out the salient abilities of the strong model. Unsupervised finetuning improves the PGR of the GPT reward modeling task from  less than 20% to 30-40%.</p>
+
+<p>Finally, the authors discuss the possibility of using linear probing to improve weak-to-strong. They found that weak supervision increases the linearity of the labels so finetuning using weak labels and then linear probing increases the PGR of the weak-to-strong generalization.</p>
+
+<h2 id="discussion">Discussion</h2>
+
+<p>The first potential avenue for future work discussed is changes to the analogous setup. As mentioned before, there are two main disanalogies with this setup:</p>
+
+<ul>
+  <li>Imitation Saliency</li>
+  <li>Pretraining Leakage</li>
+</ul>
+
+<p>The authors mention the following ways to improve the setup:</p>
+<ul>
+  <li>fixing disanalogies</li>
+  <li>showing that the disanalogies are not severe</li>
+  <li>generalizing tasks to more complicated tasks</li>
+</ul>
+
+<p>The next avenue future work is scalable methods for weak-to-strong generalization. In a desired weak-to-strong generalization:</p>
+
+<ul>
+  <li>the strong model should disagree with weak models errors</li>
+  <li>the generalization should be salient to the strong model</li>
+  <li>The gneralization should be consistent.</li>
+</ul>
+
+<p>The authors also believe there is a lot of potential for gains to be made in weak-to-strong generalization by using more ML techniques like confidence loss which dramatically improved PGR.</p>
+
+<p>Finally, the authors say that super human alignment is a critical problem, and if we are to use super human AI for important things there should be a clear scientific understanding of when and why the alignment works. They mention the following questions among others:</p>
+
+<ul>
+  <li>Why is there a significant difference between PGR obtained for different tasks?</li>
+  <li>What makes a task or concept easy or hard to elicit?</li>
+  <li>How much to errors in weak labels affect the strong models behavior?</li>
+</ul>
+
+<h2 id="what-i-am-working-on">What I am working on</h2>
+
+<p>The authors mention that the saliency of the strong model representation for the tasks used is not clearly known and could have effected the results. Specifically, there may be overlap between the GPT-4 pretraining data and the popular NLP tasks data which was used in the experiment. I plan to recreate the experiment but instead of using GPT-2 and GPT-4 as the weak and strong models I will use 2 opensource models llama v1 and llama v2. And I will test on data that is disjoint from the pretraining data of these models. The idea behind this is to choose a task which the strong model does not have pretraining data on, to show I will share all details and code in my next post.</p>
+
+
+    </div>
+  </article>
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->    
+    <footer class="fixed-bottom">
+      <div class="container mt-0">
+        © Copyright 2024 Suhaas  . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+      </div>
+    </footer>
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+    
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.8/dist/medium-zoom.min.js" integrity="sha256-7PhEpEWEW0XXQ0k6kQrPKwuoIomz8R8IYyuU1Qew4P8=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js"></script>
+
+  <!-- Bootstrap Table -->
+  <script defer src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+
+  <!-- Load Common JS -->
+  <script src="/assets/js/no_defer.js"></script>
+  <script defer src="/assets/js/common.js"></script>
+  <script defer src="/assets/js/copy_code.js" type="text/javascript"></script>
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+    <!-- MathJax -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    
+    
+
+<!-- Scrolling Progress Bar -->
+<script type="text/javascript">
+  /*
+   * This JavaScript code has been adapted from the article 
+   * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar, 
+   * published on the website https://css-tricks.com on the 7th of May, 2014.
+   * Couple of changes were made to the original code to make it compatible 
+   * with the `al-foio` theme.
+   */
+  const progressBar = $("#progress");
+  /*
+   * We set up the bar after all elements are done loading.
+   * In some cases, if the images in the page are larger than the intended
+   * size they'll have on the page, they'll be resized via CSS to accomodate
+   * the desired size. This mistake, however, breaks the computations as the
+   * scroll size is computed as soon as the elements finish loading.
+   * To account for this, a minimal delay was introduced before computing the
+   * values.
+   */
+  window.onload = function () {
+    setTimeout(progressBarSetup, 50);
+  };
+  /*
+   * We set up the bar according to the browser.
+   * If the browser supports the progress element we use that.
+   * Otherwise, we resize the bar thru CSS styling
+   */
+  function progressBarSetup() {
+    if ("max" in document.createElement("progress")) {
+      initializeProgressElement();
+      $(document).on("scroll", function() {
+        progressBar.attr({ value: getCurrentScrollPosition() });
+      });
+      $(window).on("resize", initializeProgressElement);
+    } else {
+      resizeProgressBar();
+      $(document).on("scroll", resizeProgressBar);
+      $(window).on("resize", resizeProgressBar);
+    }
+  }
+  /*
+   * The vertical scroll position is the same as the number of pixels that
+   * are hidden from view above the scrollable area. Thus, a value > 0 is
+   * how much the user has scrolled from the top
+   */
+  function getCurrentScrollPosition() {
+    return $(window).scrollTop();
+  }
+
+  function initializeProgressElement() {
+    let navbarHeight = $("#navbar").outerHeight(true);
+    $("body").css({ "padding-top": navbarHeight });
+    $("progress-container").css({ "padding-top": navbarHeight });
+    progressBar.css({ top: navbarHeight });
+    progressBar.attr({
+      max: getDistanceToScroll(),
+      value: getCurrentScrollPosition(),
+    });
+  }
+  /*
+   * The offset between the html document height and the browser viewport
+   * height will be greater than zero if vertical scroll is possible.
+   * This is the distance the user can scroll
+   */
+  function getDistanceToScroll() {
+    return $(document).height() - $(window).height();
+  }
+
+  function resizeProgressBar() {
+    progressBar.css({ width: getWidthPercentage() + "%" });
+  }
+  // The scroll ratio equals the percentage to resize the bar
+  function getWidthPercentage() {
+    return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+  }
+</script>
+
+  </body>
+</html>
