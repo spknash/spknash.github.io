@@ -3,7 +3,7 @@ layout: post
 title:  Weak to Strong Generalization
 date:   2024-01-19 
 description: Review of new paper on super aligment and weak to strong generalization
-tags: AI, Alignment
+tags: AI, Alignment, openai
 categories: 
 ---
 
