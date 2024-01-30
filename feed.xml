@@ -1,5 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-01-28T18:05:12+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">Suhaas</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Weak to Strong Generalization</title><link href="https://spknash.github.io/blog/2024/weak-to-strong/" rel="alternate" type="text/html" title="Weak to Strong Generalization" /><published>2024-01-19T00:00:00+00:00</published><updated>2024-01-19T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/weak-to-strong</id><content type="html" xml:base="https://spknash.github.io/blog/2024/weak-to-strong/"><![CDATA[<h1 id="weak-to-strong-generalization-openai">Weak-to-Strong Generalization (OpenAI)</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-01-30T02:01:22+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">Suhaas</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Weak to Strong with LLaMas</title><link href="https://spknash.github.io/blog/2024/llama-generalization/" rel="alternate" type="text/html" title="Weak to Strong with LLaMas" /><published>2024-01-26T00:00:00+00:00</published><updated>2024-01-26T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/llama-generalization</id><content type="html" xml:base="https://spknash.github.io/blog/2024/llama-generalization/"><![CDATA[<h2 id="recap">Recap</h2>
+
+<p>In the previous post I went into detail about this OpenAI paper. A full summary of the experiment and results are found in that post but here is a quick recap. Superhuman AI alignment is somewhat analogous to weak-to-strong generalization. This is because is superhuman alignment, an inferior intelligence(humans) aims to supervise a superior intelligence(the AI). Since superhuman AI does not exist yet, a close analogy is weak-to-strong generalization in which a weak AI aims to supervise a stronger AI. In the paper, the researchers discuss an experiment where they test weak-to-strong generalization where GPT-2 supervises GPT-4 on 3 different tasks(NLP benchmarks, chess puzzles, GPT reward modeling). One of the weaknesses of the experiment which the researchers noted is that the saliency of the tasks in the stronger model is not clearly known. For example, if GPT-4’s pretraining dataset included the tasks, this would artificially inflate the perceived effectiveness of weak-to-strong generalization.</p>
+
+<p>For this reason my goal here was to repeat the experiment with llama v1 supervising llama v2 on a task which is not salient in the strong model. The idea here is that llama v1 and llama v2 are opensource so it should be possible to choose a task which is not salient in llama. In addition to choosing opensource models in which there is more knowledge about the pretraining dataset, simply choosing a more complicated task reduces the likelihood of pretraining leakage.</p>
+
+<h2 id="openai-repo">OpenAI repo</h2>
+
+<p>The OpenAI weak-to-strong repo has code similar to what is used in the experiment the paper covers. The repo however uses the models GPT-2 at varying sizes and some other language models like QWEN instead of GPT-2 and GPT-4 which were used in the experiment discussed in the paper. I didn’t really understand why the code repo is so different from the code which must have been used for the actual experiment in the paper. It may be because GPT-4 needs API use and it would be an expensive experiment for an average person to run if the strong model used was GPT-4.</p>
+
+<p>The first thing I did was test out the code in the repo using GPT-2 small as the weak model and GPT-2 medium as the strong model. This runs GPT-2 small on ground truth and GPT-2 medium on ground truth as the two benchmarks, and then the GPT-2 medium finetuned on GPT-2 small labels as the weak-to-strong model. I ran this experiment to see what I get and I get the following results:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+GPT-2 small, and GPT-2 medium on ground truth, and GPT-2 medium on weak labels
+    
+</div>
+
+<p>Based on these results, it is clear that a very small PGR is achieved by the</p>
+
+<p>Despite looking very different, they are pretty similar to the expected results given by the repo authors:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/amazon_polarity.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/anthropic_hh.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/boolq-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/boolq-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/boolq-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/boolq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq%20expected.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<p>These results show in all the datasets the weak-to-strong generalization typically achieves a PGR &gt;= 0.2 . With the highest PGR being 0.8 and lowest PGR being negative. However in both of these outliers the distance between ground truth weak and ground truth strong was very small. These PGRs are aligned with the papers findings the weak-to-strong generalization has some promise but the current PGRs acheived are not close to adequate fro superalignment or any alignment.</p>
+
+<p>I forked this repo and used the same code to run my experiment using llama v1 as the weak model, llama v2 as the strong model. The task I choose was chess puzzles again because it doesn’t seem to be included in the llama pretraining datasets according to here. Additionally, of the three tasks used in the original experiment, chess is the most complicated and least likely to be leaked from the pretraining.</p>
+
+<h2 id="weak-to-strong-generalization-with-llamas">Weak to strong Generalization with LLaMas</h2>
+
+<p>Similarly to the GPT-2 small and GPT-2 medium experiment, In the LLaMa experiment I trained v1 on ground truth and v2 on ground truth as the benchmarks. I then trained v2 on the weakly generated labels by v1 to produce the weak-to-strong model. Below are the results of this experiment:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+LLaMa v1, and LLaMa v2 on ground truth, and LLaMa v2 on weak labels
+    
+</div>
+
+<p>With the task being chess puzzles we can see that v1 and v2 both do much poorly compared to GPT-2 and GPT-4 repectively. The distance between v1’s ground truth training and v2’s ground truth training is 0.2 which is less than the difference between GPT-2 and GPT-4. The weak-to-strong model is 0.015 above v1’s ground truth. This leads to a PGR of around 0.07. This PGR is lower than the PGR for chess puzzles of the weakly supervised GPT-4 model. This difference could be caused by multiple factors:</p>
+
+<ul>
+  <li>The performance gap between GPT-2 and GPT-4 is greater than v1 vs v2. This allows a weakly supervised GPT-4 to make more gains</li>
+  <li>There could be pretraining leakage of the task in GPT which the authors acknowledge.</li>
+  <li>The researchers used larger models which have more latent capabilities and this could have allowed the weak GPT to elicit more capability from the strong GPT. The LLaMa v1 and v2 I used are 3.5B parameters and 7B parameters respectively and the llama.cpp version as well.</li>
+</ul>
+
+<p>The challenge with deep learning is that it is difficult to impossible to scientifically show which of these factors cause this difference and how much. The lack of scientific understanding surrounding weak-to-strong generalization is also something the paper addresses as future work. One of the goals was to see if the pretraining leakage disanalogy revealed itself in this experiment, but it is unclear at this point because numerous other factors could have caused a lower PGR in the LLaMa weak-to-strong model.</p>
+
+<h2 id="challenges">Challenges</h2>
+
+<p>One major challenge throughout this experiment was working with colab. Running the experiments took a very long time and there was a risk of the runtime being disconnected in the middle of the run which forces you to start over. Testing just GPT2 and GPT2-medium took 2 hours and testing LLaMa v1 and v2, and the weak-to-strong model took around 3 hours. I may consider upgrading my colab to save runtimes or to train models faster, esepcially as I continue to do more deepl learning. I may also look into other cloud computing platforms like lambda labs or Nvidia.</p>
+
+<p>Another challenge was my lack of familiarity with PyTorch and the HuggingFace Transformers library. It was difficult to understand the code that produced the experiment in the OpenAI repository because it was all using PyTorch and Transformers. I was able to gain a good enough understanding to use it and modify it just by looking at the comments and my general programming experience. I have been going through the HuggingFace Transformers introductory mini course and I think my next post will be an application of what I learned through that. I am also going through the stable diffusion series on FastAI and that has given me some very interesting projects to do as well.</p>
+
+<p>I was not able to run an experiment on the same level as the researchers or even the truncated experiment done in the repo due to limitations in compute and time access to GPUs imposed by Colab. I think as I continue deep learning projects I will need to find a way to solve this common problem.</p>]]></content><author><name></name></author><category term="llama," /><category term="colab," /><category term="llm," /><category term="openai" /><summary type="html"><![CDATA[Weak to Strong Generalization experiment with LLaMa v1 and v2]]></summary></entry><entry><title type="html">Weak to Strong Generalization</title><link href="https://spknash.github.io/blog/2024/weak-to-strong/" rel="alternate" type="text/html" title="Weak to Strong Generalization" /><published>2024-01-19T00:00:00+00:00</published><updated>2024-01-19T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/weak-to-strong</id><content type="html" xml:base="https://spknash.github.io/blog/2024/weak-to-strong/"><![CDATA[<h1 id="weak-to-strong-generalization-openai">Weak-to-Strong Generalization (OpenAI)</h1>
 
 <p>OpenAI recently came out with a paper titled <em>Weak-to-Strong Generalization: Eliciting Strong Capabilities using Weak Supervision</em>. The paper tackles the broad problem of super human alignment – how will humans supervise superhuman artificial intelligence. Since superintelligent AI does not exist yet, this alignment problem can not be tackled directly. The authors choose to tackle an analogous problem – can a weak model supervise a strong model(both of whichare sub-human intelligence)? I found this paper to be very interesting. It shows that weak-to-strong generalisation is tractable based on the experiments they ran, however a significant percentage of strong capabilities are not elicitied using weak supervision.</p>
 
@@ -125,7 +315,7 @@ credit: OpenAI
 
 <h2 id="what-i-am-working-on">What I am working on</h2>
 
-<p>The authors mention that the saliency of the strong model representation for the tasks used is not clearly known and could have effected the results. Specifically, there may be overlap between the GPT-4 pretraining data and the popular NLP tasks data which was used in the experiment. I plan to recreate the experiment but instead of using GPT-2 and GPT-4 as the weak and strong models I will use 2 opensource models llama v1 and llama v2. And I will test on data that is disjoint from the pretraining data of these models. The idea behind this is to choose a task which the strong model does not have pretraining data on, to show I will share all details and code in my next post.</p>]]></content><author><name></name></author><category term="AI," /><category term="Alignment" /><summary type="html"><![CDATA[Review of new paper on super aligment and weak to strong generalization]]></summary></entry><entry><title type="html">Echo Server cpp</title><link href="https://spknash.github.io/blog/2023/echo-server-cpp/" rel="alternate" type="text/html" title="Echo Server cpp" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/echo-server-cpp</id><content type="html" xml:base="https://spknash.github.io/blog/2023/echo-server-cpp/"><![CDATA[<h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
+<p>The authors mention that the saliency of the strong model representation for the tasks used is not clearly known and could have effected the results. Specifically, there may be overlap between the GPT-4 pretraining data and the popular NLP tasks data which was used in the experiment. I plan to recreate the experiment but instead of using GPT-2 and GPT-4 as the weak and strong models I will use 2 opensource models llama v1 and llama v2. And I will test on data that is disjoint from the pretraining data of these models. The idea behind this is to choose a task which the strong model does not have pretraining data on, to show I will share all details and code in my next post.</p>]]></content><author><name></name></author><category term="AI," /><category term="Alignment," /><category term="openai" /><summary type="html"><![CDATA[Review of new paper on super aligment and weak to strong generalization]]></summary></entry><entry><title type="html">Echo Server cpp</title><link href="https://spknash.github.io/blog/2023/echo-server-cpp/" rel="alternate" type="text/html" title="Echo Server cpp" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2023/echo-server-cpp</id><content type="html" xml:base="https://spknash.github.io/blog/2023/echo-server-cpp/"><![CDATA[<h1 id="intro-socket-programming-in-c">Intro Socket Programming in C</h1>
 
 <p>Hello! It has been a while since my last post. I have been busy with job applications and switching jobs the last few weeks and haven’t set aside enough time for this. From now on I’ll make sure to post every week I’ll say Monday even if what I am working on is not in any kind of finished state I’ll just put my progress or talk about something completely different. Like a filler episode in anime.</p>
 

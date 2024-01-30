@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    <!-- Metadata, OpenGraph and Schema.org -->
+    
+
+    <!-- Standard metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Weak to Strong with LLaMas | Suhaas</title>
+    <meta name="author" content="Suhaas  ">
+    <meta name="description" content="Weak to Strong Generalization experiment with LLaMa v1 and v2">
+    <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+    <!-- Bootstrap & MDB -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+    <!-- Bootstrap Table -->
+    <link defer rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+    <!-- Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
+
+    
+
+    <!-- Styles -->
+    
+    <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="https://spknash.github.io/blog/2024/llama-generalization/">
+
+    <!-- Dark Mode -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/native.css" media="none" id="highlight_theme_dark">
+
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/dark_mode.js"></script>
+    
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+    <header>
+
+      <!-- Nav Bar -->
+      <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top">
+        <div class="container">
+          <a class="navbar-brand title font-weight-lighter" href="/">Suhaas</a>
+          <!-- Navbar Toggle -->
+          <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+          </button>
+
+          <div class="collapse navbar-collapse text-right" id="navbarNav">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+
+              <!-- About -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/">about</a>
+              </li>
+              
+              <!-- Blog -->
+              <li class="nav-item active">
+                <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a>
+              </li>
+
+              <!-- Other pages -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/repositories/">Repositories</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/cv/">cv</a>
+              </li>
+
+              <!-- Toogle theme mode -->
+              <li class="toggle-container">
+                <button id="light-toggle" title="Change theme">
+                  <i class="fas fa-moon"></i>
+                  <i class="fas fa-sun"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Scrolling Progress Bar -->
+      <progress id="progress" value="0">
+        <div class="progress-container">
+          <span class="progress-bar"></span>
+        </div>
+      </progress>
+    </header>
+
+
+    <!-- Content -->
+    <div class="container mt-5">
+      
+        <!-- _layouts/post.html -->
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Weak to Strong with LLaMas</h1>
+    <p class="post-meta">January 26, 2024</p>
+    <p class="post-tags">
+      <a href="/blog/2024"> <i class="fas fa-calendar fa-sm"></i> 2024 </a>
+        ·  
+        <a href="/blog/tag/llama">
+          <i class="fas fa-hashtag fa-sm"></i> llama,</a>  
+          <a href="/blog/tag/colab">
+          <i class="fas fa-hashtag fa-sm"></i> colab,</a>  
+          <a href="/blog/tag/llm">
+          <i class="fas fa-hashtag fa-sm"></i> llm,</a>  
+          <a href="/blog/tag/openai">
+          <i class="fas fa-hashtag fa-sm"></i> openai</a>  
+          
+
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h2 id="recap">Recap</h2>
+
+<p>In the previous post I went into detail about this OpenAI paper. A full summary of the experiment and results are found in that post but here is a quick recap. Superhuman AI alignment is somewhat analogous to weak-to-strong generalization. This is because is superhuman alignment, an inferior intelligence(humans) aims to supervise a superior intelligence(the AI). Since superhuman AI does not exist yet, a close analogy is weak-to-strong generalization in which a weak AI aims to supervise a stronger AI. In the paper, the researchers discuss an experiment where they test weak-to-strong generalization where GPT-2 supervises GPT-4 on 3 different tasks(NLP benchmarks, chess puzzles, GPT reward modeling). One of the weaknesses of the experiment which the researchers noted is that the saliency of the tasks in the stronger model is not clearly known. For example, if GPT-4’s pretraining dataset included the tasks, this would artificially inflate the perceived effectiveness of weak-to-strong generalization.</p>
+
+<p>For this reason my goal here was to repeat the experiment with llama v1 supervising llama v2 on a task which is not salient in the strong model. The idea here is that llama v1 and llama v2 are opensource so it should be possible to choose a task which is not salient in llama. In addition to choosing opensource models in which there is more knowledge about the pretraining dataset, simply choosing a more complicated task reduces the likelihood of pretraining leakage.</p>
+
+<h2 id="openai-repo">OpenAI repo</h2>
+
+<p>The OpenAI weak-to-strong repo has code similar to what is used in the experiment the paper covers. The repo however uses the models GPT-2 at varying sizes and some other language models like QWEN instead of GPT-2 and GPT-4 which were used in the experiment discussed in the paper. I didn’t really understand why the code repo is so different from the code which must have been used for the actual experiment in the paper. It may be because GPT-4 needs API use and it would be an expensive experiment for an average person to run if the strong model used was GPT-4.</p>
+
+<p>The first thing I did was test out the code in the repo using GPT-2 small as the weak model and GPT-2 medium as the strong model. This runs GPT-2 small on ground truth and GPT-2 medium on ground truth as the two benchmarks, and then the GPT-2 medium finetuned on GPT-2 small labels as the weak-to-strong model. I ran this experiment to see what I get and I get the following results:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+GPT-2 small, and GPT-2 medium on ground truth, and GPT-2 medium on weak labels
+    
+</div>
+
+<p>Based on these results, it is clear that a very small PGR is achieved by the</p>
+
+<p>Despite looking very different, they are pretty similar to the expected results given by the repo authors:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/amazon_polarity-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/amazon_polarity.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/anthropic_hh-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/anthropic_hh.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/boolq-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/boolq-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/boolq-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/boolq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq%20expected-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq%20expected.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: OpenAI
+    
+</div>
+
+<p>These results show in all the datasets the weak-to-strong generalization typically achieves a PGR &gt;= 0.2 . With the highest PGR being 0.8 and lowest PGR being negative. However in both of these outliers the distance between ground truth weak and ground truth strong was very small. These PGRs are aligned with the papers findings the weak-to-strong generalization has some promise but the current PGRs acheived are not close to adequate fro superalignment or any alignment.</p>
+
+<p>I forked this repo and used the same code to run my experiment using llama v1 as the weak model, llama v2 as the strong model. The task I choose was chess puzzles again because it doesn’t seem to be included in the llama pretraining datasets according to here. Additionally, of the three tasks used in the original experiment, chess is the most complicated and least likely to be leaked from the pretraining.</p>
+
+<h2 id="weak-to-strong-generalization-with-llamas">Weak to strong Generalization with LLaMas</h2>
+
+<p>Similarly to the GPT-2 small and GPT-2 medium experiment, In the LLaMa experiment I trained v1 on ground truth and v2 on ground truth as the benchmarks. I then trained v2 on the weakly generated labels by v1 to produce the weak-to-strong model. Below are the results of this experiment:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/weak-strong-llamas/sciq-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/weak-strong-llamas/sciq-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/weak-strong-llamas/sciq-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/weak-strong-llamas/sciq.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+LLaMa v1, and LLaMa v2 on ground truth, and LLaMa v2 on weak labels
+    
+</div>
+
+<p>With the task being chess puzzles we can see that v1 and v2 both do much poorly compared to GPT-2 and GPT-4 repectively. The distance between v1’s ground truth training and v2’s ground truth training is 0.2 which is less than the difference between GPT-2 and GPT-4. The weak-to-strong model is 0.015 above v1’s ground truth. This leads to a PGR of around 0.07. This PGR is lower than the PGR for chess puzzles of the weakly supervised GPT-4 model. This difference could be caused by multiple factors:</p>
+
+<ul>
+  <li>The performance gap between GPT-2 and GPT-4 is greater than v1 vs v2. This allows a weakly supervised GPT-4 to make more gains</li>
+  <li>There could be pretraining leakage of the task in GPT which the authors acknowledge.</li>
+  <li>The researchers used larger models which have more latent capabilities and this could have allowed the weak GPT to elicit more capability from the strong GPT. The LLaMa v1 and v2 I used are 3.5B parameters and 7B parameters respectively and the llama.cpp version as well.</li>
+</ul>
+
+<p>The challenge with deep learning is that it is difficult to impossible to scientifically show which of these factors cause this difference and how much. The lack of scientific understanding surrounding weak-to-strong generalization is also something the paper addresses as future work. One of the goals was to see if the pretraining leakage disanalogy revealed itself in this experiment, but it is unclear at this point because numerous other factors could have caused a lower PGR in the LLaMa weak-to-strong model.</p>
+
+<h2 id="challenges">Challenges</h2>
+
+<p>One major challenge throughout this experiment was working with colab. Running the experiments took a very long time and there was a risk of the runtime being disconnected in the middle of the run which forces you to start over. Testing just GPT2 and GPT2-medium took 2 hours and testing LLaMa v1 and v2, and the weak-to-strong model took around 3 hours. I may consider upgrading my colab to save runtimes or to train models faster, esepcially as I continue to do more deepl learning. I may also look into other cloud computing platforms like lambda labs or Nvidia.</p>
+
+<p>Another challenge was my lack of familiarity with PyTorch and the HuggingFace Transformers library. It was difficult to understand the code that produced the experiment in the OpenAI repository because it was all using PyTorch and Transformers. I was able to gain a good enough understanding to use it and modify it just by looking at the comments and my general programming experience. I have been going through the HuggingFace Transformers introductory mini course and I think my next post will be an application of what I learned through that. I am also going through the stable diffusion series on FastAI and that has given me some very interesting projects to do as well.</p>
+
+<p>I was not able to run an experiment on the same level as the researchers or even the truncated experiment done in the repo due to limitations in compute and time access to GPUs imposed by Colab. I think as I continue deep learning projects I will need to find a way to solve this common problem.</p>
+
+
+    </div>
+  </article>
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->    
+    <footer class="fixed-bottom">
+      <div class="container mt-0">
+        © Copyright 2024 Suhaas  . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+      </div>
+    </footer>
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+    
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.8/dist/medium-zoom.min.js" integrity="sha256-7PhEpEWEW0XXQ0k6kQrPKwuoIomz8R8IYyuU1Qew4P8=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js"></script>
+
+  <!-- Bootstrap Table -->
+  <script defer src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+
+  <!-- Load Common JS -->
+  <script src="/assets/js/no_defer.js"></script>
+  <script defer src="/assets/js/common.js"></script>
+  <script defer src="/assets/js/copy_code.js" type="text/javascript"></script>
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+    <!-- MathJax -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    
+    
+
+<!-- Scrolling Progress Bar -->
+<script type="text/javascript">
+  /*
+   * This JavaScript code has been adapted from the article 
+   * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar, 
+   * published on the website https://css-tricks.com on the 7th of May, 2014.
+   * Couple of changes were made to the original code to make it compatible 
+   * with the `al-foio` theme.
+   */
+  const progressBar = $("#progress");
+  /*
+   * We set up the bar after all elements are done loading.
+   * In some cases, if the images in the page are larger than the intended
+   * size they'll have on the page, they'll be resized via CSS to accomodate
+   * the desired size. This mistake, however, breaks the computations as the
+   * scroll size is computed as soon as the elements finish loading.
+   * To account for this, a minimal delay was introduced before computing the
+   * values.
+   */
+  window.onload = function () {
+    setTimeout(progressBarSetup, 50);
+  };
+  /*
+   * We set up the bar according to the browser.
+   * If the browser supports the progress element we use that.
+   * Otherwise, we resize the bar thru CSS styling
+   */
+  function progressBarSetup() {
+    if ("max" in document.createElement("progress")) {
+      initializeProgressElement();
+      $(document).on("scroll", function() {
+        progressBar.attr({ value: getCurrentScrollPosition() });
+      });
+      $(window).on("resize", initializeProgressElement);
+    } else {
+      resizeProgressBar();
+      $(document).on("scroll", resizeProgressBar);
+      $(window).on("resize", resizeProgressBar);
+    }
+  }
+  /*
+   * The vertical scroll position is the same as the number of pixels that
+   * are hidden from view above the scrollable area. Thus, a value > 0 is
+   * how much the user has scrolled from the top
+   */
+  function getCurrentScrollPosition() {
+    return $(window).scrollTop();
+  }
+
+  function initializeProgressElement() {
+    let navbarHeight = $("#navbar").outerHeight(true);
+    $("body").css({ "padding-top": navbarHeight });
+    $("progress-container").css({ "padding-top": navbarHeight });
+    progressBar.css({ top: navbarHeight });
+    progressBar.attr({
+      max: getDistanceToScroll(),
+      value: getCurrentScrollPosition(),
+    });
+  }
+  /*
+   * The offset between the html document height and the browser viewport
+   * height will be greater than zero if vertical scroll is possible.
+   * This is the distance the user can scroll
+   */
+  function getDistanceToScroll() {
+    return $(document).height() - $(window).height();
+  }
+
+  function resizeProgressBar() {
+    progressBar.css({ width: getWidthPercentage() + "%" });
+  }
+  // The scroll ratio equals the percentage to resize the bar
+  function getWidthPercentage() {
+    return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+  }
+</script>
+
+  </body>
+</html>
