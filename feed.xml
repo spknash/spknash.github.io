@@ -1,5 +1,193 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-01-30T02:01:22+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">Suhaas</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Weak to Strong with LLaMas</title><link href="https://spknash.github.io/blog/2024/llama-generalization/" rel="alternate" type="text/html" title="Weak to Strong with LLaMas" /><published>2024-01-26T00:00:00+00:00</published><updated>2024-01-26T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/llama-generalization</id><content type="html" xml:base="https://spknash.github.io/blog/2024/llama-generalization/"><![CDATA[<h2 id="recap">Recap</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://spknash.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://spknash.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-06T19:43:32+00:00</updated><id>https://spknash.github.io/feed.xml</id><title type="html">Suhaas</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Financial Phrases Classification (part 1)</title><link href="https://spknash.github.io/blog/2024/financial-phrases-pt1/" rel="alternate" type="text/html" title="Financial Phrases Classification (part 1)" /><published>2024-02-02T00:00:00+00:00</published><updated>2024-02-02T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/financial-phrases-pt1</id><content type="html" xml:base="https://spknash.github.io/blog/2024/financial-phrases-pt1/"><![CDATA[<p>In last week’s post I said one of the challenges I had in understanding the code for weak-to-strong models was my lack of familiarity with PyTorch and the HuggingFace Transformers library. To address this I went through the <a href="https://huggingface.co/learn/nlp-course/chapter0/1?fw=pt">introductory course</a> that HuggingFace includes in it’s docs, and then I applied the Transformers library to a mini project which I’ll show here.</p>
+
+<h2 id="huggingface-course-overview">HuggingFace Course Overview</h2>
+
+<p>The mini course in the HuggingFace Docs are very easy to follow. There are currently 9 sections and each section covers a different part of the transformers library. That is, every section except the first one which gives an overview of what transformers are and how they work. This was pretty useful for me because even though I have used language models frequently in the last 1 year, I don’t have a very deep understanding of exactly how they work. I think within the next couple weeks I will do a detailed read of the <em>Attention is All You Need</em> paper which first introduced the transformer model.</p>
+
+<p>They go over a brief history of Transformer models. The first was GPT in June of 2018, which was shortly followed by BERT, GPT-2, BART, and GPT-3 in May of 2020. They then go over the architecture of a transformer.</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/transformer-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/transformer-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/transformer-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/transformer.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: Google AI
+    
+</div>
+
+<p>But only high-level concepts and to get a full understanding I’ll have to dig deeper. The two main components of a transformer are the encoder and the decoder. The encoder uses a full attention layer grasp all of the information contained in the input. The decoder uses a partial attention layer – only considering words which have already been outputted by the transformer. The authors of <em>Attention is All You Need</em> created the model in this way because this model was intially proposed for language translation. The idea was that by using both an encoder and a decoder, the model will be able to understand the full statement in the first language, and then be able to generate words in the translated language using the full encoder knowledge and the decoder knowledge of words generated so far.</p>
+
+<p>Some models are encoder only(auto-encoding), some are decoder only(auto-regressive), and some are both encoder and decoder(sequence to sequence). Encoder only models are good for tasks which require full understanding of input because it uses a full attention mask. These models are good at things like sentiment analysis, Q&amp;A, and sentence classification. BERT is a popular example of a encoder-only model. Decoder only models on the other hand are good at tasks which work best when the model is only aware of previously generated words. These models are good at text-generation. Popular examples are GPT and GPT-2. Sequence to Sequence models work by using the encoder once on the input text and then use the decoder repeatedly to generate more and more words to be appended to the response. These models are good for text-generation and language translation. BART and T5 are examples of sequence to sequence models.</p>
+
+<p>That pretty much covers the first section of the course. The remaining sections cover the specific classes and uses cases of the transformers library. Instead of going into detail about each one of these sections, I will describe the mini-project I did. This project touches all the sections of the course so it will give a good overview of what is possible with the transformers library.</p>
+
+<h2 id="finetuning-on-financial-phrases">Finetuning on Financial Phrases</h2>
+
+<p>The mini project is as follows: To finetune a model that outputs the sentiment of a financial phrase. After creating this model I will create a hugging face space where users can input a name of a company on twitter, and the app uses the twitter API to gather the last 1000 mentions of the company and gives a summary of the sentiments of the 1000 tweets. In this part 1 post I am only going over the finetuning part.</p>
+
+<p>Sentiment analysis we aim this model to do is classify a sentence as 0-negative, 1-neutral, or 2-postiive. The first step is to choose a model to finetune. Based on the fact that encoder only models are suitable for understanding the entire input which is what sentiment analysis should do, I choose DiistilBert. This model is encoder only, and it is also much fewer parameters than BERT with similar performance so it can be trained and evaluated much faster. The next step is choosing a suitable dataset. <a href="https://huggingface.co/datasets/financial_phrasebank">This dataset</a> has just what we are looking for – there is a sentence column with the financial phrase and then a label column with the human labelled sentiment. This dataset is found on Hugging Face datasets</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/dataset-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/dataset-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/dataset-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/dataset.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>Before we begin we need the following packages:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Importing the libraries needed
+</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">transformers</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">DistilBertModel</span><span class="p">,</span> <span class="n">DistilBertTokenizer</span><span class="p">,</span> <span class="n">DistilBertForSequenceClassification</span>
+<span class="kn">from</span> <span class="n">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">DatasetDict</span><span class="p">,</span> <span class="n">Dataset</span>
+
+</code></pre></div></div>
+
+<p>To finetune the model we need to download the dataset and then modify it so that it can be trained. the first modification is creating a training split, validation split, and test split. In the original state there is only a train split.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="n">raw_datasets</span> <span class="o">=</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="sh">"</span><span class="s">financial_phrasebank</span><span class="sh">"</span><span class="p">,</span> <span class="sh">'</span><span class="s">sentences_50agree</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">data_splits</span> <span class="o">=</span> <span class="nc">DatasetDict</span><span class="p">({})</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][:</span><span class="mi">3876</span><span class="p">])</span>
+<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">valid_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="p">:</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">])</span>
+<span class="n">valid_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">valid_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">:])</span>
+<span class="n">test_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][:</span><span class="mi">3876</span><span class="p">]))</span>
+<span class="n">validation_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="p">:</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">]))</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">:]))</span>
+
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span>
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">valid</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">valid_df</span><span class="p">)</span>
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">test</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+
+
+</code></pre></div></div>
+
+<p>This code creates a new DatasetDict called <code class="language-plaintext highlighter-rouge">data_splits</code> which has a different split for training, validation, and testing. I used 80% of the dataset for training and 10% for validation and testing. The validation split is useful for determining whether the model is overfitting or underfitting. It can also be used for evaluation. The test split is used for evaluation. After creating the different splits of the database, the next step is to pre-process the data so that it can be fed into the pretrained model. This primarily involves turning the sentences into sequences of numbers, aka tokenizing. To do this we use the <code class="language-plaintext highlighter-rouge">DistillBertTokenizer</code> module from the transformers library. Trying it out on a smaple sentence:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">'</span><span class="s">distilbert-base-cased</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="nf">tokenizer</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, this is a example sentence</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Hi im Bob</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">inputs</span>
+</code></pre></div></div>
+<p>returns</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'input_ids': [101, 1188, 1110, 1103, 1148, 5650, 119, 102, 1188, 1110, 1103, 1248, 1141, 119, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+</code></pre></div></div>
+
+<p>It returns an attention mask as well as the tokenized sentence – this just allows the model to know which tokens to pay attention to. Since BERT is an auto-encoding model it will pay attention to all of the input.</p>
+
+<p>Another crucial pre-processing step is padding. When inputs are fed into the model during fin-tuning, they are loaded in batches. In order for the gpu to compute the new weights of the model efficiently, all of the inputs must have the same size. This allows the gpu to use its parallel computing capabilities. Below is how I did the padding:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">DataCollatorWithPadding</span>
+
+<span class="n">data_collator</span> <span class="o">=</span> <span class="nc">DataCollatorWithPadding</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>This defines a function data_collator which is passed a parameter to the PyTorch Trainer API. The last step of finetuning is training and evaluation. We can use the evaluate library to pass in a parameter into the Trainer API which tells the Trainer API about which metrics to keep track of. I defined a metric which keeps track of training loss and validation loss, and accuracy.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">evaluate</span>
+
+<span class="n">metric</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">"</span><span class="s">accuracy</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">metric</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">preds</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">predictions</span><span class="p">.</span><span class="n">label_ids</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>For training I used the PyTorch training API:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">checkpoint</span> <span class="o">=</span> <span class="sh">'</span><span class="s">distilbert-base-cased</span><span class="sh">'</span>
+
+<span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="n">eval_preds</span><span class="p">):</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">"</span><span class="s">accuracy</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">logits</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">eval_preds</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">metric</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">training_args</span> <span class="o">=</span> <span class="nc">TrainingArguments</span><span class="p">(</span><span class="sh">"</span><span class="s">test-trainer</span><span class="sh">"</span><span class="p">,</span> <span class="n">evaluation_strategy</span><span class="o">=</span><span class="sh">"</span><span class="s">epoch</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="nc">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="sh">"</span><span class="s">train</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="sh">"</span><span class="s">valid</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">data_collator</span><span class="o">=</span><span class="n">data_collator</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>and the results were as follows:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/results-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/results-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/results-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/results.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>The final accuracy on the test split is 80% which is relatively good considering that the labels were also not unanimously – meaning the labels were voted on by a group of people and the dataset includes labels with &gt;60% consensus among the voters. The part that is concerning is that the validation loss goes up on the last epoch despite the training loss going down. This is a common sign of over-fitting. Over-fitting can be solved by increasing the dataset or by using methods such as regularization. Since I am getting 80% accuracy on the test split which is pretty good I will continue to making the app with this model and I may modify the model later if I find that over-fitting is a significant problem.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>This mini-project shows many of the core functionalities of the transformers library: using the datasets hub, using tokenizers, using pretrained model checkpoints, using the evluate library. Now that I have a finetuned model that is scoring 80% on the test split, I will use this model inference to make a app on HuggingFace spaces which uses this inference on the last 1000 mentions of a name to summarize the sentiment.</p>
+
+<p>Later on I also hope to dig deeper into the details of transformers and tokenizers. Another thing I was very curious about was how exactly DistilBERT was created? I am interested how a model with similar performance but much fewer parameters was achieved.</p>]]></content><author><name></name></author><category term="HuggingFace," /><category term="transformers," /><category term="part1" /><summary type="html"><![CDATA[Overview of HuggingFace NLP course and applied to financial phrases dataset]]></summary></entry><entry><title type="html">Weak to Strong with LLaMas</title><link href="https://spknash.github.io/blog/2024/llama-generalization/" rel="alternate" type="text/html" title="Weak to Strong with LLaMas" /><published>2024-01-26T00:00:00+00:00</published><updated>2024-01-26T00:00:00+00:00</updated><id>https://spknash.github.io/blog/2024/llama-generalization</id><content type="html" xml:base="https://spknash.github.io/blog/2024/llama-generalization/"><![CDATA[<h2 id="recap">Recap</h2>
 
 <p>In the previous post I went into detail about this OpenAI paper. A full summary of the experiment and results are found in that post but here is a quick recap. Superhuman AI alignment is somewhat analogous to weak-to-strong generalization. This is because is superhuman alignment, an inferior intelligence(humans) aims to supervise a superior intelligence(the AI). Since superhuman AI does not exist yet, a close analogy is weak-to-strong generalization in which a weak AI aims to supervise a stronger AI. In the paper, the researchers discuss an experiment where they test weak-to-strong generalization where GPT-2 supervises GPT-4 on 3 different tasks(NLP benchmarks, chess puzzles, GPT reward modeling). One of the weaknesses of the experiment which the researchers noted is that the saliency of the tasks in the stronger model is not clearly known. For example, if GPT-4’s pretraining dataset included the tasks, this would artificially inflate the perceived effectiveness of weak-to-strong generalization.</p>
 

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    <!-- Metadata, OpenGraph and Schema.org -->
+    
+
+    <!-- Standard metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Financial Phrases Classification (part 1) | Suhaas</title>
+    <meta name="author" content="Suhaas  ">
+    <meta name="description" content="Overview of HuggingFace NLP course and applied to financial phrases dataset">
+    <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+    <!-- Bootstrap & MDB -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+    <!-- Bootstrap Table -->
+    <link defer rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+    <!-- Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
+
+    
+
+    <!-- Styles -->
+    
+    <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="https://spknash.github.io/blog/2024/financial-phrases-pt1/">
+
+    <!-- Dark Mode -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/native.css" media="none" id="highlight_theme_dark">
+
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/dark_mode.js"></script>
+    
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+    <header>
+
+      <!-- Nav Bar -->
+      <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top">
+        <div class="container">
+          <a class="navbar-brand title font-weight-lighter" href="/">Suhaas</a>
+          <!-- Navbar Toggle -->
+          <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+          </button>
+
+          <div class="collapse navbar-collapse text-right" id="navbarNav">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+
+              <!-- About -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/">about</a>
+              </li>
+              
+              <!-- Blog -->
+              <li class="nav-item active">
+                <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a>
+              </li>
+
+              <!-- Other pages -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/repositories/">Repositories</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/cv/">cv</a>
+              </li>
+
+              <!-- Toogle theme mode -->
+              <li class="toggle-container">
+                <button id="light-toggle" title="Change theme">
+                  <i class="fas fa-moon"></i>
+                  <i class="fas fa-sun"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Scrolling Progress Bar -->
+      <progress id="progress" value="0">
+        <div class="progress-container">
+          <span class="progress-bar"></span>
+        </div>
+      </progress>
+    </header>
+
+
+    <!-- Content -->
+    <div class="container mt-5">
+      
+        <!-- _layouts/post.html -->
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Financial Phrases Classification (part 1)</h1>
+    <p class="post-meta">February 2, 2024</p>
+    <p class="post-tags">
+      <a href="/blog/2024"> <i class="fas fa-calendar fa-sm"></i> 2024 </a>
+        ·  
+        <a href="/blog/tag/huggingface">
+          <i class="fas fa-hashtag fa-sm"></i> HuggingFace,</a>  
+          <a href="/blog/tag/transformers">
+          <i class="fas fa-hashtag fa-sm"></i> transformers,</a>  
+          <a href="/blog/tag/part1">
+          <i class="fas fa-hashtag fa-sm"></i> part1</a>  
+          
+
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <p>In last week’s post I said one of the challenges I had in understanding the code for weak-to-strong models was my lack of familiarity with PyTorch and the HuggingFace Transformers library. To address this I went through the <a href="https://huggingface.co/learn/nlp-course/chapter0/1?fw=pt" rel="external nofollow noopener" target="_blank">introductory course</a> that HuggingFace includes in it’s docs, and then I applied the Transformers library to a mini project which I’ll show here.</p>
+
+<h2 id="huggingface-course-overview">HuggingFace Course Overview</h2>
+
+<p>The mini course in the HuggingFace Docs are very easy to follow. There are currently 9 sections and each section covers a different part of the transformers library. That is, every section except the first one which gives an overview of what transformers are and how they work. This was pretty useful for me because even though I have used language models frequently in the last 1 year, I don’t have a very deep understanding of exactly how they work. I think within the next couple weeks I will do a detailed read of the <em>Attention is All You Need</em> paper which first introduced the transformer model.</p>
+
+<p>They go over a brief history of Transformer models. The first was GPT in June of 2018, which was shortly followed by BERT, GPT-2, BART, and GPT-3 in May of 2020. They then go over the architecture of a transformer.</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/transformer-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/transformer-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/transformer-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/transformer.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+credit: Google AI
+    
+</div>
+
+<p>But only high-level concepts and to get a full understanding I’ll have to dig deeper. The two main components of a transformer are the encoder and the decoder. The encoder uses a full attention layer grasp all of the information contained in the input. The decoder uses a partial attention layer – only considering words which have already been outputted by the transformer. The authors of <em>Attention is All You Need</em> created the model in this way because this model was intially proposed for language translation. The idea was that by using both an encoder and a decoder, the model will be able to understand the full statement in the first language, and then be able to generate words in the translated language using the full encoder knowledge and the decoder knowledge of words generated so far.</p>
+
+<p>Some models are encoder only(auto-encoding), some are decoder only(auto-regressive), and some are both encoder and decoder(sequence to sequence). Encoder only models are good for tasks which require full understanding of input because it uses a full attention mask. These models are good at things like sentiment analysis, Q&amp;A, and sentence classification. BERT is a popular example of a encoder-only model. Decoder only models on the other hand are good at tasks which work best when the model is only aware of previously generated words. These models are good at text-generation. Popular examples are GPT and GPT-2. Sequence to Sequence models work by using the encoder once on the input text and then use the decoder repeatedly to generate more and more words to be appended to the response. These models are good for text-generation and language translation. BART and T5 are examples of sequence to sequence models.</p>
+
+<p>That pretty much covers the first section of the course. The remaining sections cover the specific classes and uses cases of the transformers library. Instead of going into detail about each one of these sections, I will describe the mini-project I did. This project touches all the sections of the course so it will give a good overview of what is possible with the transformers library.</p>
+
+<h2 id="finetuning-on-financial-phrases">Finetuning on Financial Phrases</h2>
+
+<p>The mini project is as follows: To finetune a model that outputs the sentiment of a financial phrase. After creating this model I will create a hugging face space where users can input a name of a company on twitter, and the app uses the twitter API to gather the last 1000 mentions of the company and gives a summary of the sentiments of the 1000 tweets. In this part 1 post I am only going over the finetuning part.</p>
+
+<p>Sentiment analysis we aim this model to do is classify a sentence as 0-negative, 1-neutral, or 2-postiive. The first step is to choose a model to finetune. Based on the fact that encoder only models are suitable for understanding the entire input which is what sentiment analysis should do, I choose DiistilBert. This model is encoder only, and it is also much fewer parameters than BERT with similar performance so it can be trained and evaluated much faster. The next step is choosing a suitable dataset. <a href="https://huggingface.co/datasets/financial_phrasebank" rel="external nofollow noopener" target="_blank">This dataset</a> has just what we are looking for – there is a sentence column with the financial phrase and then a label column with the human labelled sentiment. This dataset is found on Hugging Face datasets</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/dataset-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/dataset-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/dataset-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/dataset.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>Before we begin we need the following packages:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Importing the libraries needed
+</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">transformers</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">DistilBertModel</span><span class="p">,</span> <span class="n">DistilBertTokenizer</span><span class="p">,</span> <span class="n">DistilBertForSequenceClassification</span>
+<span class="kn">from</span> <span class="n">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">DatasetDict</span><span class="p">,</span> <span class="n">Dataset</span>
+
+</code></pre></div></div>
+
+<p>To finetune the model we need to download the dataset and then modify it so that it can be trained. the first modification is creating a training split, validation split, and test split. In the original state there is only a train split.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="n">raw_datasets</span> <span class="o">=</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="sh">"</span><span class="s">financial_phrasebank</span><span class="sh">"</span><span class="p">,</span> <span class="sh">'</span><span class="s">sentences_50agree</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">data_splits</span> <span class="o">=</span> <span class="nc">DatasetDict</span><span class="p">({})</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][:</span><span class="mi">3876</span><span class="p">])</span>
+<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">valid_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="p">:</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">])</span>
+<span class="n">valid_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">valid_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">:])</span>
+<span class="n">test_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][:</span><span class="mi">3876</span><span class="p">]))</span>
+<span class="n">validation_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="p">:</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">]))</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">raw_datasets</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">][</span><span class="mi">3876</span><span class="o">+</span><span class="mi">485</span><span class="p">:]))</span>
+
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span>
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">valid</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">valid_df</span><span class="p">)</span>
+<span class="n">data_splits</span><span class="p">[</span><span class="sh">'</span><span class="s">test</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">.</span><span class="nf">from_pandas</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+
+
+</code></pre></div></div>
+
+<p>This code creates a new DatasetDict called <code class="language-plaintext highlighter-rouge">data_splits</code> which has a different split for training, validation, and testing. I used 80% of the dataset for training and 10% for validation and testing. The validation split is useful for determining whether the model is overfitting or underfitting. It can also be used for evaluation. The test split is used for evaluation. After creating the different splits of the database, the next step is to pre-process the data so that it can be fed into the pretrained model. This primarily involves turning the sentences into sequences of numbers, aka tokenizing. To do this we use the <code class="language-plaintext highlighter-rouge">DistillBertTokenizer</code> module from the transformers library. Trying it out on a smaple sentence:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">'</span><span class="s">distilbert-base-cased</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="nf">tokenizer</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, this is a example sentence</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Hi im Bob</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">inputs</span>
+</code></pre></div></div>
+<p>returns</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'input_ids': [101, 1188, 1110, 1103, 1148, 5650, 119, 102, 1188, 1110, 1103, 1248, 1141, 119, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+</code></pre></div></div>
+
+<p>It returns an attention mask as well as the tokenized sentence – this just allows the model to know which tokens to pay attention to. Since BERT is an auto-encoding model it will pay attention to all of the input.</p>
+
+<p>Another crucial pre-processing step is padding. When inputs are fed into the model during fin-tuning, they are loaded in batches. In order for the gpu to compute the new weights of the model efficiently, all of the inputs must have the same size. This allows the gpu to use its parallel computing capabilities. Below is how I did the padding:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">DataCollatorWithPadding</span>
+
+<span class="n">data_collator</span> <span class="o">=</span> <span class="nc">DataCollatorWithPadding</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>This defines a function data_collator which is passed a parameter to the PyTorch Trainer API. The last step of finetuning is training and evaluation. We can use the evaluate library to pass in a parameter into the Trainer API which tells the Trainer API about which metrics to keep track of. I defined a metric which keeps track of training loss and validation loss, and accuracy.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">evaluate</span>
+
+<span class="n">metric</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">"</span><span class="s">accuracy</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">metric</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">preds</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">predictions</span><span class="p">.</span><span class="n">label_ids</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>For training I used the PyTorch training API:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">checkpoint</span> <span class="o">=</span> <span class="sh">'</span><span class="s">distilbert-base-cased</span><span class="sh">'</span>
+
+<span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="n">eval_preds</span><span class="p">):</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">"</span><span class="s">accuracy</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">logits</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">eval_preds</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">metric</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">training_args</span> <span class="o">=</span> <span class="nc">TrainingArguments</span><span class="p">(</span><span class="sh">"</span><span class="s">test-trainer</span><span class="sh">"</span><span class="p">,</span> <span class="n">evaluation_strategy</span><span class="o">=</span><span class="sh">"</span><span class="s">epoch</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="nc">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="sh">"</span><span class="s">train</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="sh">"</span><span class="s">valid</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">data_collator</span><span class="o">=</span><span class="n">data_collator</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>and the results were as follows:</p>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/financial-phrases/results-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/financial-phrases/results-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/financial-phrases/results-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/financial-phrases/results.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" title="example image" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p>The final accuracy on the test split is 80% which is relatively good considering that the labels were also not unanimously – meaning the labels were voted on by a group of people and the dataset includes labels with &gt;60% consensus among the voters. The part that is concerning is that the validation loss goes up on the last epoch despite the training loss going down. This is a common sign of over-fitting. Over-fitting can be solved by increasing the dataset or by using methods such as regularization. Since I am getting 80% accuracy on the test split which is pretty good I will continue to making the app with this model and I may modify the model later if I find that over-fitting is a significant problem.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>This mini-project shows many of the core functionalities of the transformers library: using the datasets hub, using tokenizers, using pretrained model checkpoints, using the evluate library. Now that I have a finetuned model that is scoring 80% on the test split, I will use this model inference to make a app on HuggingFace spaces which uses this inference on the last 1000 mentions of a name to summarize the sentiment.</p>
+
+<p>Later on I also hope to dig deeper into the details of transformers and tokenizers. Another thing I was very curious about was how exactly DistilBERT was created? I am interested how a model with similar performance but much fewer parameters was achieved.</p>
+
+    </div>
+  </article>
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->    
+    <footer class="fixed-bottom">
+      <div class="container mt-0">
+        © Copyright 2024 Suhaas  . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+      </div>
+    </footer>
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+    
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.8/dist/medium-zoom.min.js" integrity="sha256-7PhEpEWEW0XXQ0k6kQrPKwuoIomz8R8IYyuU1Qew4P8=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js"></script>
+
+  <!-- Bootstrap Table -->
+  <script defer src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+
+  <!-- Load Common JS -->
+  <script src="/assets/js/no_defer.js"></script>
+  <script defer src="/assets/js/common.js"></script>
+  <script defer src="/assets/js/copy_code.js" type="text/javascript"></script>
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+    <!-- MathJax -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    
+    
+
+<!-- Scrolling Progress Bar -->
+<script type="text/javascript">
+  /*
+   * This JavaScript code has been adapted from the article 
+   * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar, 
+   * published on the website https://css-tricks.com on the 7th of May, 2014.
+   * Couple of changes were made to the original code to make it compatible 
+   * with the `al-foio` theme.
+   */
+  const progressBar = $("#progress");
+  /*
+   * We set up the bar after all elements are done loading.
+   * In some cases, if the images in the page are larger than the intended
+   * size they'll have on the page, they'll be resized via CSS to accomodate
+   * the desired size. This mistake, however, breaks the computations as the
+   * scroll size is computed as soon as the elements finish loading.
+   * To account for this, a minimal delay was introduced before computing the
+   * values.
+   */
+  window.onload = function () {
+    setTimeout(progressBarSetup, 50);
+  };
+  /*
+   * We set up the bar according to the browser.
+   * If the browser supports the progress element we use that.
+   * Otherwise, we resize the bar thru CSS styling
+   */
+  function progressBarSetup() {
+    if ("max" in document.createElement("progress")) {
+      initializeProgressElement();
+      $(document).on("scroll", function() {
+        progressBar.attr({ value: getCurrentScrollPosition() });
+      });
+      $(window).on("resize", initializeProgressElement);
+    } else {
+      resizeProgressBar();
+      $(document).on("scroll", resizeProgressBar);
+      $(window).on("resize", resizeProgressBar);
+    }
+  }
+  /*
+   * The vertical scroll position is the same as the number of pixels that
+   * are hidden from view above the scrollable area. Thus, a value > 0 is
+   * how much the user has scrolled from the top
+   */
+  function getCurrentScrollPosition() {
+    return $(window).scrollTop();
+  }
+
+  function initializeProgressElement() {
+    let navbarHeight = $("#navbar").outerHeight(true);
+    $("body").css({ "padding-top": navbarHeight });
+    $("progress-container").css({ "padding-top": navbarHeight });
+    progressBar.css({ top: navbarHeight });
+    progressBar.attr({
+      max: getDistanceToScroll(),
+      value: getCurrentScrollPosition(),
+    });
+  }
+  /*
+   * The offset between the html document height and the browser viewport
+   * height will be greater than zero if vertical scroll is possible.
+   * This is the distance the user can scroll
+   */
+  function getDistanceToScroll() {
+    return $(document).height() - $(window).height();
+  }
+
+  function resizeProgressBar() {
+    progressBar.css({ width: getWidthPercentage() + "%" });
+  }
+  // The scroll ratio equals the percentage to resize the bar
+  function getWidthPercentage() {
+    return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+  }
+</script>
+
+  </body>
+</html>
