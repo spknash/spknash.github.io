@@ -10,7 +10,7 @@ categories:
 
 ## The App
 
-I used the model I made trained in the previous post to make an app which shows the recent sentiment of a company on Twitter when you input its stock tag on twitter. Check it out [here!](https://huggingface.co/spaces/suhaaspk/Company-Sentiment). You can find the code [here](https://huggingface.co/spaces/suhaaspk/Company-Sentiment/tree/main). Sometime HuggingFace spaces go to sleep or I may have to disconnect this app if I make more apps in the future so I will leave a screenshot here to show what it looks like.
+I used the model I made trained in the previous post to make an app which shows the recent sentiment of a company on Twitter when you input its stock tag on twitter. Check it out [here!](https://huggingface.co/spaces/suhaaspk/Company-Sentiment). You can find the code [here](https://huggingface.co/spaces/suhaaspk/Company-Sentiment/tree/main). I may have to disconnect the app if I make more spaces in the future. If that happens, below is a screenshot for reference. 
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
