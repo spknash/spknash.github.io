@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  AI generated profile picture
+title:  Stable Diffusion & Dreambooth profile picture
 date:   2024-02-16 
 description: My approach trying to create a AI-generated profile picture, overview of tools used
 tags: HuggingFace, diffusers, stable-diffusion, dreambooth, controlnet
