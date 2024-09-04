@@ -1,4 +1,4 @@
-In this post I am mentioning highlights from all of the entertainment that I consumed in 2023. Let's start with books.
+In this post I am mentioning highlights from all of the entertainment that I consumed in 2024. Let's start with books.
 
 ## Books
 
