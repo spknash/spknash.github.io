@@ -8,6 +8,7 @@ I didn't read as many books as I would have liked in the past few years. The tim
 
 ### Atomic Habits
 
+
 This book was pretty good, I would give it a 4/5 stars. I think the advice given in this book is really common but also very useful. The next book I picked was also in the realm of human behavior -- Dopamine Nation: Finding Balance in the Age of Indulgence by Anna Lembke. The 
 
 ### Dopamine Nation
