@@ -10,10 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AI, | Suhaas</title>
+    <title>Codemini's Thesis | Suhaas</title>
     <meta name="author" content="Suhaas  ">
-    <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+    <meta name="description" content="Why we started Codemini">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -39,7 +38,7 @@
     <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://spknash.github.io/blog/tag/ai/">
+    <link rel="canonical" href="https://spknash.github.io/blog/2025/codemini-thesis/">
 
     <!-- Dark Mode -->
     
@@ -114,35 +113,57 @@
     <!-- Content -->
     <div class="container mt-5">
       
-        <div class="post">
+        <!-- _layouts/post.html -->
+
+<div class="post">
 
   <header class="post-header">
-    <h1 class="post-title"> <i class="fas fa-hashtag fa-sm"></i> AI, </h1>
-    <p class="post-description"> an archive of posts with this tag </p>
+    <h1 class="post-title">Codemini's Thesis</h1>
+    <p class="post-meta">June 14, 2025</p>
+    <p class="post-tags">
+      <a href="/blog/2025"> <i class="fas fa-calendar fa-sm"></i> 2025 </a>
+        ·  
+        <a href="/blog/tag/education">
+          <i class="fas fa-hashtag fa-sm"></i> education,</a>  
+          <a href="/blog/tag/ai">
+          <i class="fas fa-hashtag fa-sm"></i> AI,</a>  
+          <a href="/blog/tag/programming">
+          <i class="fas fa-hashtag fa-sm"></i> programming,</a>  
+          <a href="/blog/tag/k-12">
+          <i class="fas fa-hashtag fa-sm"></i> K-12</a>  
+          
+
+    </p>
   </header>
 
-  <article>
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-        <tr>
-          <th scope="row">Jun 14, 2025</th>
-          <td>
-              <a class="post-link" href="/blog/2025/codemini-thesis/">Codemini's Thesis</a>
-          </td>
-        </tr>
-      
-        <tr>
-          <th scope="row">Jan 19, 2024</th>
-          <td>
-              <a class="post-link" href="/blog/2024/weak-to-strong/">Weak to Strong Generalization</a>
-          </td>
-        </tr>
-      
-      </table>
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <p>We believe that the best way to learn is through hands-on learning. This belief is at odds with the way most K-12, MOOCs, and even higher education institutions approach learning.
+The vast majority of these learning institutions have students follow the lecture-plus-problem-set rut. In the traditional mode of instruction students are expected to consume some learning material and are then evaluated on their retention.</p>
+
+<p>There is a mountain of evidence showing that active learning is the biggest accelerator for students <sup>[<a href="#1">1</a>]</sup><sup>[<a href="#2">2</a>]</sup><sup>[<a href="#3">3</a>]</sup><sup>[<a href="#4">4</a>]</sup><sup>[<a href="#5">5</a>]</sup>. Despite this, most institutions still follow the traditional model. Why is this? The biggest roadblock is the time and energy required to create a hands-on project that is challenging, yet still providing enough guidance for the student to complete it. At universities, professors and teacher assistants pour hundreds of hours into making such projects.</p>
+
+<p>The recent advancements of LLM powered coding agents make it possible to quickly generate hands-on software projects. Tell Codemini “I want to learn about databases and Rust”. Our MVP will generate an engaging hands-on project complete with skeleton code, automated tests, and a detailed editorial so students can create a Rust backed database with instant feedback and support.</p>
+
+<p>Many companies are already trying to do course generation using LLMs. This already works pretty well. We are looking one step ahead and trying to generate hands-on projects. Our core technological moat will be the QA cycle which allows a student to create and refine their own hands-on project. This cycle iteratively generates and solves projects, snuffing out bugs and hallucinations in each round.</p>
+
+<p>Give it a try at <a href="https://codemini.xyz" rel="external nofollow noopener" target="_blank">codemini.xyz</a></p>
+
+<h2 id="bibliography">Bibliography</h2>
+
+<p><a id="1">[1]</a> Freeman, S., Eddy, S. L., McDonough, M., Smith, M. K., Okoroafor, N., Jordt, H., &amp; Wenderoth, M. P. (2014). Active learning increases student performance in science, engineering, and mathematics. <em>Proceedings of the National Academy of Sciences</em>, 111(23), 8410-8415. https://doi.org/10.1073/pnas.1319030111</p>
+
+<p><a id="2">[2]</a> Theobald, E. J., Hill, M. J., Tran, E., Agrawal, S., Arroyo, E. N., Behling, S., Chambwe, N., Cintrón, D. L., Cooper, J. D., Dunster, G., Grummer, J. A., Hennessey, K., Hsiao, J., Iranon, N., Jones, L., Jordt, H., Keller, M., Lacey, M. E., Littlefield, C. E., Lowe, A., Newman, S., Okolo, S., Olroyd, B. R., Peecook, S. B., Pickett, D. L., Slager, D. L., Caviedes-Solis, I. W., Stanchak, K. E., Sundaravardan, V., Valdebenito, C., Williams, K. R., Zinsli, K., &amp; Freeman, S. (2020). Active learning narrows achievement gaps for underrepresented students in undergraduate science, technology, engineering, and math. <em>Proceedings of the National Academy of Sciences</em>, 117(12), 6476-6483. https://doi.org/10.1073/pnas.1916903117</p>
+
+<p><a id="3">[3]</a> Hake, R. R. (1998). Interactive-Engagement Versus Traditional Methods: A Six-Thousand-Student Survey of Mechanics Test Data for Introductory Physics Courses. <em>American Journal of Physics</em>, 66(1), 64-74. https://doi.org/10.1119/1.18809</p>
+
+<p><a id="4">[4]</a> Deslauriers, L., McCarty, L. S., Miller, K., Callaghan, K., &amp; Kestin, G. (2019). Measuring actual learning versus feeling of learning in response to being actively engaged in the classroom. <em>Proceedings of the National Academy of Sciences</em>, 116(39), 19251-19257. https://doi.org/10.1073/pnas.1821936116</p>
+
+<p><a id="5">[5]</a> Tutal, Ö., &amp; Yazar, T. (2023). Active Learning Improves Academic Achievement and Learning Retention in K-12 Settings: A Meta-Analysis. <em>Journal of Educational Research</em>, 116(2), 123-135.</p>
+
     </div>
   </article>
-
 </div>
 
       
